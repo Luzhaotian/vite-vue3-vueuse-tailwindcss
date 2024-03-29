@@ -1,5 +1,6 @@
 # Vite
 
+# Vue 3 + Vite + Pinia + Vue Router + Tailwind CSS + Vue Use + Element Plus
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
