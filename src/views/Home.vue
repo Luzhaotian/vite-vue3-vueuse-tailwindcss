@@ -18,7 +18,7 @@ const { proxy } = getCurrentInstance();
 
 tryOnMounted(() => {
   // 清除缓存
-  sessionStorageClear();
+  // sessionStorageClear();
 
   // 添加动态路由
   // addDynamicRoutes();

@@ -1,3 +1,6 @@
+import { useSessionStorage } from "@vueuse/core";
+
+const userInfo = "USER_INFO";
 /**
  * 删除本地缓存
  * @param {String} name
@@ -74,3 +77,14 @@ export const isLocalStorageGetItem = (name) =>
  * @returns
  */
 export const localStorageClear = () => localStorage.clear();
+
+/**
+ * Vue Use Storage 封装
+ * User Info
+ * @param {any} data
+ * @param {object} other 其他参数
+ */
+export const useStorageUserInfo = (data, other = {}) => {
+	// debugger;
+	const state = useSessionStorage(userInfo, data, ...other);
+};

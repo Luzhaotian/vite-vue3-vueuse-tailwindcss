@@ -64,7 +64,7 @@ export default defineConfig((root) => {
 							assetInfo.type === "asset" &&
 							/\.(ttf|woff|woff2|eot)$/i.test(assetInfo.name)
 						) {
-							return "fonts/[name].[hash][ext]";
+							return "fonts/[name].[hash].[ext]";
 						}
 						return "[ext]/name[hash]-[hash].[ext]";
 					},
