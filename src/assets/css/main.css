@@ -1,10 +1,10 @@
-@import './base.css';
+@import "./base.css";
 
 #app {
-  /* margin: 0 auto; */
-  margin: var(--app-margin);
-  font-weight: normal;
-  --el-text-color-regular: #363636;
+	/* margin: 0 auto; */
+	margin: var(--app-margin);
+	font-weight: normal;
+	--el-text-color-regular: #363636;
 }
 
 /* a,
@@ -16,9 +16,9 @@
 } */
 
 @media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
+	a:hover {
+		background-color: hsla(160, 100%, 37%, 0.2);
+	}
 }
 
 /* @media (min-width: 1024px) {
@@ -35,82 +35,13 @@
 } */
 
 .el-table .el-table__header th.el-table__cell {
-  height: 50px;
-  background: rgb(235, 235, 235);
-  /* background-color: blueviolet; */
+	height: 50px;
+	background: rgb(235, 235, 235);
+	/* background-color: blueviolet; */
 }
 
 .el-table .el-table__header th.el-table__cell .cell {
-  color: #606266;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-
-/* 详情头部样式 */
-.main .detail .detail-top {
-  position: sticky;
-  top: 0;
-  left: 0;
-  z-index: 10;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 0.75rem;
-  border-top: 1px solid #DCDFE6;
-  border-bottom: 1px solid #DCDFE6;
-}
-
-/* 详情表单label样式 */
-.main .detail .elForm label {
-  margin-bottom: 4px;
-  line-height: 20px;
-  height: 30px;
-  padding: 0 0 5px 0;
-  word-wrap: break-word;
-  box-sizing: border-box;
-}
-
-.main .detail .detail-top .detail-title {
-  /* float: left; */
-  font-size: 16px;
-  font-weight: bold;
-}
-
-.main .detail .detail-top .detail-button-box {
-  display: flex;
-  align-items: center;
-  margin-left: auto;
-}
-
-.main .detail .detail-top .detail-button-box .close {
-  cursor: pointer;
-  margin-left: 10px;
-}
-
-.main .detail .detail-body {
-  padding: 0.75rem;
-  /* background: #fafafb; */
-  /* background: #f3f5f8; */
-  box-sizing: border-box;
-}
-
-/* document文件模板样式 */
-.detail .document {
-  margin-bottom: 20px;
-}
-
-/* 重置详情文件凭证和历史记录模块样式，添加阴影 */
-.detail .document,
-.detail .history {
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  overflow: hidden;
-  box-shadow: var(--el-box-shadow-light);
-}
-
-.detail .history .pagination {
-  background-color: #fff;
-  padding: 5px 10px 5px 10px;
+	color: #606266;
+	font-size: 14px;
+	font-weight: bold;
 }

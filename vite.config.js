@@ -16,6 +16,13 @@ export default defineConfig((root) => {
 	const isDevelopment = mode === "development";
 	const isProd = mode === "production";
 	return {
+		/**
+		 * base
+		 * 如果是单点登录类似的项目
+		 * 注意 base 配置
+		 * 当前应用如是 子应用 './'
+		 * 当前应用是 主应用 '/'
+		 */
 		base: "./",
 		css: {
 			preprocessorOptions: {
@@ -58,7 +65,7 @@ export default defineConfig((root) => {
 							assetInfo.type === "asset" &&
 							/\.(jpe?g|png|gif|svg)$/i.test(assetInfo.name)
 						) {
-							return "img/[name].[hash][ext]";
+							return "img/[name].[hash].[ext]";
 						}
 						if (
 							assetInfo.type === "asset" &&
