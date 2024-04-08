@@ -34,6 +34,25 @@
   }
 } */
 
+/* Tailwind Css 可副用配置 */
+/* 使用就是把 名字 （比如：wh-full）直接放进  class 里 */
+/* @apply */
+.wh-full {
+	@apply w-full h-full;
+}
+
+.flex-ac {
+	@apply flex justify-around items-center;
+}
+
+.flex-bc {
+	@apply flex justify-between items-center;
+}
+
+.flex-cc {
+	@apply flex justify-center items-center;
+}
+
 .el-table .el-table__header th.el-table__cell {
 	height: 50px;
 	background: rgb(235, 235, 235);
