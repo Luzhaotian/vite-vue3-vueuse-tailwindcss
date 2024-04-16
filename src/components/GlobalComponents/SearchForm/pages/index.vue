@@ -113,6 +113,10 @@ const onReset = (formEl) => {
 							:style="{ width: '100%', ...item.formItemStyle }"
 							:prop="item.value">
 							<!-- input -->
+							<!-- 
+								https://element-plus.gitee.io/zh-CN/component/input.html
+								show-word-limit 只有在 type=text 时有效 详情查看 Element plus 文档 
+							-->
 							<el-input
 								v-if="item.type === 'input'"
 								:style="{ width: '100%', ...item.inputStyle }"
@@ -120,7 +124,10 @@ const onReset = (formEl) => {
 								:clearable="item.clearable ?? true"
 								:class="item.class"
 								:placeholder="item.placeholder"
-								:minlength="item.minlength ?? 0" />
+								:minlength="item.minlength ?? 0"
+								:type="item.inputType ?? 'text'"
+								:maxlength="item.maxlength"
+								:show-word-limit="item.showWordLimit" />
 							<!-- select -->
 							<el-select
 								v-else-if="item.type === 'select'"

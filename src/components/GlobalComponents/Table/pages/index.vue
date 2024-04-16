@@ -12,9 +12,6 @@ import Pagination from "@/components/GlobalComponents/Pagination";
 import { Download } from "@element-plus/icons-vue";
 import { downloadFile } from "@/libs/downloadFile";
 
-const currentPage = ref(1);
-const pageSize = ref(10);
-
 const props = defineProps({
 	/**
 	 * 下载对象
@@ -78,7 +75,13 @@ const props = defineProps({
 
 const emits = defineEmits(["on-pagination-change"]);
 
+const tpaCurrentPage = props?.tablePaginationArg?.currentPage ?? 1;
+const tpaPageSize = props?.tablePaginationArg?.pageSize ?? 10;
+
 const myTableData = ref([]);
+const currentPage = ref(tpaCurrentPage);
+const pageSize = ref(tpaPageSize);
+const downloadLoading = ref(false);
 
 /**
  * 监听数据
@@ -149,81 +152,121 @@ const setColumnWidth = (o) => {
 };
 
 /**
+ * 处理数据为空的情况的排序
+ * prop 必须有值
+ * @param {object} row
+ * @param {number} index
+ * @param {string} prop
+ */
+const sortBy = (row, index, prop) => {
+	if (row[prop] === null) {
+		return "";
+	}
+
+	return row[prop] ? row[prop] : -1;
+};
+
+/**
  * TODO 待完善
  */
 const downloadClick = () => {
-	// console.log('downloadClick');
-	downloadFile();
+	const { url, data, method } = props?.downloadObject;
+	downloadLoading.value = true;
+	downloadFile(
+		url,
+		{
+			data,
+			method,
+		},
+		() => {
+			downloadLoading.value = false;
+		}
+	);
 };
 </script>
 
 <template>
-	<!-- :highlight-current-row="highlightCurrentRow" -->
-	<el-table
-		ref="ElTableRef"
-		v-bind="$attrs"
-		v-loading="tableLoading"
-		style="width: 100%"
-		:data="myTableData"
-		:border="$attrs.border ?? true"
-		:stripe="stripe">
-		<template
-			v-for="(c, k) in myTableColumn"
-			:key="`col_${k}`">
-			<el-table-column
-				v-if="c.type === 'selection'"
-				type="selection" />
-			<el-table-column
-				:sortable="c.sortable ?? true"
-				:label="c.label"
-				:show-overflow-tooltip="c.showOverflowTooltip ?? true"
-				:prop="c.slot ? '' : c.prop"
-				:min-width="c.width || setColumnWidth(c)"
-				:sort-by="c.sortBy"
-				:formatter="c.formatter || null">
-				<template
-					v-if="c.slot"
-					#default="scoped">
-					<slot
-						:name="c.slot"
-						:tableSlotColum="c"
-						:tableRow="scoped.row" />
-				</template>
-			</el-table-column>
-		</template>
+	<!-- 
+		最外层增加根标签 div
+		Vue3 虽然支持不使用根标签，但是会影响 scoped 的穿透样式，所以增加根标签
+	-->
+	<div>
+		<!-- :highlight-current-row="highlightCurrentRow" -->
+		<el-table
+			ref="ElTableRef"
+			v-bind="$attrs"
+			v-loading="tableLoading"
+			style="width: 100%"
+			:data="myTableData"
+			:border="$attrs.border ?? true"
+			:stripe="stripe">
+			<template
+				v-for="(c, k) in myTableColumn"
+				:key="`col_${k}`">
+				<el-table-column
+					v-if="c.type === 'selection'"
+					type="selection" />
+				<el-table-column
+					:class-name="c.className ?? ''"
+					:sortable="c.sortable ?? true"
+					:label="c.label"
+					:show-overflow-tooltip="c.showOverflowTooltip ?? true"
+					:prop="c.slot ? '' : c.prop"
+					:min-width="c.width || setColumnWidth(c)"
+					:formatter="c.formatter || null"
+					:fixed="c.fixed"
+					:sort-method="c.sortMethod ? c.sortMethod : null"
+					:sort-by="
+						c.sortMethod
+							? undefined
+							: c.sortBy
+							? c.sortBy
+							: (row, index) => sortBy(row, index, c.prop)
+					">
+					<template
+						v-if="c.slot"
+						#default="scoped">
+						<slot
+							:name="c.slot"
+							:tableSlotColum="c"
+							:tableRow="scoped.row" />
+					</template>
+				</el-table-column>
+			</template>
 
-		<!-- 无内容插槽 -->
-		<template #empty>
-			<slot name="myTableEmpty" />
-		</template>
-	</el-table>
-	<div
-		ref="paginationBox"
-		class="pagination-box"
-		v-show="isPaginationBox || tablePaginationArg?.total > 0">
-		<div>
-			<!-- 分页器左侧插槽 -->
-			<slot name="paginationLeft" />
+			<!-- 无内容插槽 -->
+			<template #empty>
+				<slot name="myTableEmpty" />
+			</template>
+		</el-table>
+		<div
+			ref="paginationBox"
+			class="pagination-box"
+			v-show="isPaginationBox || tablePaginationArg?.total > 0">
+			<div>
+				<!-- 分页器左侧插槽 -->
+				<slot name="paginationLeft" />
 
-			<!-- 下载按钮 -->
-			<el-button
-				v-if="isDownload && downloadObject?.url"
-				:icon="Download"
-				circle
-				@click="downloadClick" />
+				<!-- 下载按钮 -->
+				<el-button
+					v-if="isDownload && downloadObject?.url"
+					:icon="Download"
+					circle
+					@click="downloadClick" />
+			</div>
+			<!-- 分页器 -->
+			<Pagination
+				:class="{ 'ml-3': isDownload && downloadObject?.url }"
+				@size-change="handleSizeChange"
+				@current-change="handleCurrentChange"
+				:page-sizes="tablePaginationArg?.pageSizes ?? [10, 20, 30, 50, 100]"
+				:layout="
+					tablePaginationArg?.layout ?? 'total, sizes, prev, pager, next, jumper'
+				"
+				:total="tablePaginationArg?.total ?? 0"
+				v-model:page="currentPage"
+				v-model:size="pageSize" />
 		</div>
-		<!-- 分页器 -->
-		<Pagination
-			:class="{ 'ml-3': isDownload && downloadObject?.url }"
-			@size-change="handleSizeChange"
-			@current-change="handleCurrentChange"
-			:page-sizes="tablePaginationArg?.pageSizes ?? [10, 20, 30, 50, 100]"
-			:layout="
-				tablePaginationArg?.layout ?? 'total, sizes, prev, pager, next, jumper'
-			"
-			:total="tablePaginationArg?.total ?? 0"
-			v-model:page="currentPage"
-			v-model:size="pageSize" />
 	</div>
 </template>
 
