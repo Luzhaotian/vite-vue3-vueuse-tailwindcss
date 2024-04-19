@@ -2,6 +2,7 @@
 	<!-- Test wh-full -->
 	<div class="wh-full">
 		<SearchForm
+			:form="form"
 			:searchLIst="searchLIst"
 			@on-search="onSearch" />
 		<Table
@@ -14,6 +15,8 @@
 import Table from "@/components/GlobalComponents/Table";
 import SearchForm from "@/components/GlobalComponents/SearchForm";
 import { ref } from "vue";
+
+const form = ref({});
 const tableColumn = [
 	{
 		label: "名字",
@@ -109,6 +112,11 @@ const searchLIst = [
 		value: "name",
 		type: "input",
 		placeholder: "请输入姓名",
+		on: {
+			input: (value) => {
+				console.log(value);
+			},
+		},
 		// modelName: 'name'
 	},
 	{

@@ -12,6 +12,13 @@ const formSearchRef = ref();
 
 const props = defineProps({
 	/**
+	 * 绑定对象
+	 */
+	form: {
+		type: Object,
+		default: () => {},
+	},
+	/**
 	 * 搜索列表
 	 */
 	searchLIst: {
@@ -56,8 +63,9 @@ const emits = defineEmits(["on-search", "on-reset"]);
 
 const rulesForm = props?.rulesForm ?? {};
 const labelWidth = props?.formLabelWidth ?? "auto";
+const propForm = props?.form ?? {};
 
-const formInline = reactive({});
+const formInline = reactive(propForm);
 const rules = reactive(rulesForm);
 const width = ref(labelWidth);
 
@@ -127,7 +135,8 @@ const onReset = (formEl) => {
 								:minlength="item.minlength ?? 0"
 								:type="item.inputType ?? 'text'"
 								:maxlength="item.maxlength"
-								:show-word-limit="item.showWordLimit" />
+								:show-word-limit="item.showWordLimit"
+								v-on="item.on" />
 							<!-- select -->
 							<el-select
 								v-else-if="item.type === 'select'"
