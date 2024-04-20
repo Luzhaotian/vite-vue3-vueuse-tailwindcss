@@ -1,10 +1,10 @@
 @import "./base.css";
 
 #app {
-	/* margin: 0 auto; */
-	margin: var(--app-margin);
-	font-weight: normal;
-	--el-text-color-regular: #363636;
+  /* margin: 0 auto; */
+  margin: var(--app-margin);
+  font-weight: normal;
+  --el-text-color-regular: #363636;
 }
 
 /* a,
@@ -16,9 +16,9 @@
 } */
 
 @media (hover: hover) {
-	a:hover {
-		background-color: hsla(160, 100%, 37%, 0.2);
-	}
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
 }
 
 /* @media (min-width: 1024px) {
@@ -38,29 +38,33 @@
 /* 使用就是把 名字 （比如：wh-full）直接放进  class 里 */
 /* @apply */
 .wh-full {
-	@apply w-full h-full;
+  @apply w-full h-full;
 }
 
 .flex-ac {
-	@apply flex justify-around items-center;
+  @apply flex justify-around items-center;
 }
 
 .flex-bc {
-	@apply flex justify-between items-center;
+  @apply flex justify-between items-center;
 }
 
 .flex-cc {
-	@apply flex justify-center items-center;
+  @apply flex justify-center items-center;
+}
+
+.flex-ec {
+  @apply flex justify-end items-center;
 }
 
 .el-table .el-table__header th.el-table__cell {
-	height: 50px;
-	background: rgb(235, 235, 235);
-	/* background-color: blueviolet; */
+  height: 50px;
+  background: rgb(235, 235, 235);
+  /* background-color: blueviolet; */
 }
 
 .el-table .el-table__header th.el-table__cell .cell {
-	color: #606266;
-	font-size: 14px;
-	font-weight: bold;
+  color: #606266;
+  font-size: 14px;
+  font-weight: bold;
 }

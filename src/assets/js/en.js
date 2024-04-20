@@ -2,7 +2,7 @@ export default {
   login: {
     userName: "User Name",
     password: "Password",
-    language: "language",
+    language: "language"
   },
   common: {
     publish: "Publish",
@@ -58,6 +58,6 @@ export default {
     unfinished: "未完成",
     fulfilled: "已完成",
     pickDate: "Please pick a date",
-    pickTime: "Please pick a time",
-  },
+    pickTime: "Please pick a time"
+  }
 };

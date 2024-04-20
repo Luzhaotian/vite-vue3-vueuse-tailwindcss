@@ -29,12 +29,12 @@ const app = createApp(App);
 app.config.globalProperties.$t = i18n.global.t;
 
 app
-	.use(router)
-	.use(createPinia())
-	.use(ElementPlus, {
-		locale: i18n.global.locale === "CN" ? zhCn : en,
-		size: "small",
-		zIndex: 3000,
-	})
-	.use(i18n)
-	.mount("#app");
+  .use(router)
+  .use(createPinia())
+  .use(ElementPlus, {
+    locale: i18n.global.locale === "CN" ? zhCn : en,
+    size: "small",
+    zIndex: 3000
+  })
+  .use(i18n)
+  .mount("#app");

@@ -7,13 +7,13 @@ import { reactive, markRaw } from "vue";
  * @returns {object} 初始化后的数据
  */
 export const useResetState = (state, originalData) => {
-	Object.keys(state).forEach((key) => {
-		const value = originalData[key];
-		if (typeof value === "object" && value !== null) {
-			state[key] = useResetState(reactive(value), value);
-		} else {
-			state[key] = markRaw(value);
-		}
-	});
-	return state;
+  Object.keys(state).forEach(key => {
+    const value = originalData[key];
+    if (typeof value === "object" && value !== null) {
+      state[key] = useResetState(reactive(value), value);
+    } else {
+      state[key] = markRaw(value);
+    }
+  });
+  return state;
 };

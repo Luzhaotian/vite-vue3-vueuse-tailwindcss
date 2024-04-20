@@ -10,10 +10,10 @@ const menu = [
         nameZh: "用户列表",
         nameEn: "User List",
         index: "userList",
-        name: "userList",
-      },
-    ],
-  },
+        name: "userList"
+      }
+    ]
+  }
 ];
 
 export { menu as default };

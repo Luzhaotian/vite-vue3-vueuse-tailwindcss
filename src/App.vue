@@ -14,7 +14,7 @@ const lang = computed(() => {
 /**
  * 捕获错误
  */
-onErrorCaptured((error) => {
+onErrorCaptured(error => {
   console.error(error);
   return false;
 });

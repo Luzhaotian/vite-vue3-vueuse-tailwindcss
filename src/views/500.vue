@@ -4,6 +4,12 @@
   </div>
 </template>
 
+<script setup>
+defineOptions({
+  name: "500"
+});
+</script>
+
 <style scoped>
 .error500 img {
   display: block;

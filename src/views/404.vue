@@ -5,26 +5,28 @@
   </div>
 </template>
 
+<script setup>
+defineOptions({
+  name: "404"
+});
+</script>
+
 <style scoped>
 .notFound {
   height: 100%;
   overflow: hidden;
 }
-
 .notFound h1 {
   text-align: center;
 }
-
 .notFound p {
-  text-align: center;
   color: gray;
+  text-align: center;
 }
-
 .notFound .btn {
   display: block;
   margin: 0 auto;
 }
-
 .notFound img {
   display: block;
   width: 450px;

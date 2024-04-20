@@ -8,9 +8,14 @@
 import { getLang } from "@/libs/common";
 import { cookieSetLang } from "@/libs/setUps";
 // import { addDynamicRoutes } from "@/libs/dynamicRoutes";
-import { sessionStorageClear } from "@/utils/storage.js";
+// import { sessionStorageClear } from "@/utils/storage.js";
 import { ref, getCurrentInstance } from "vue";
 import { tryOnMounted } from "@vueuse/core";
+
+defineOptions({
+  name: "Home"
+});
+
 const title = ref("主页");
 
 // 这里获取全局对象

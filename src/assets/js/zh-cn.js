@@ -2,7 +2,7 @@ export default {
   login: {
     userName: "用户名",
     password: "密码",
-    language: "语言",
+    language: "语言"
   },
   common: {
     publish: "发布",
@@ -58,6 +58,6 @@ export default {
     unfinished: "未完成",
     fulfilled: "已完成",
     pickDate: "请选择日期",
-    pickTime: "请选择时间",
-  },
+    pickTime: "请选择时间"
+  }
 };

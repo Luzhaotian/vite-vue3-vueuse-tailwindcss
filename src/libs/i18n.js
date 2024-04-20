@@ -4,11 +4,11 @@ import en from "@/assets/js/en";
 import zh from "@/assets/js/zh-cn";
 
 const i18n = createI18n({
-	locale: getLang(),
-	messages: {
-		CN: zh,
-		EN: en,
-	},
+  locale: getLang(),
+  messages: {
+    CN: zh,
+    EN: en
+  }
 });
 
 export default i18n;

@@ -20,33 +20,32 @@ import i18n from "@/libs/i18n.js";
 import { computed } from "vue";
 import { useRouter } from "vue-router";
 
-const props = defineProps({
+defineProps({
   menuData: {
     type: Array,
-    default: () => [],
-  },
+    default: () => []
+  }
 });
 
 // 获取路由
 const router = useRouter();
 
-const routerLink = (path) => {
+const routerLink = path => {
   router.push({
     path,
     query: {
       lang: i18n.global.locale,
-      t: new Date().getTime(),
-    },
+      t: new Date().getTime()
+    }
   });
 };
 
 const isLang = computed(
   () => i18n.global.locale,
-  (val) => {
+  val => {
     return val === "CN";
   }
 );
 </script>
 
-<style lang='scss' scoped>
-</style>
+<style lang="scss" scoped></style>
