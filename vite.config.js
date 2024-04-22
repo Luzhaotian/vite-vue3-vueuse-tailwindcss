@@ -58,6 +58,41 @@ export default defineConfig(root => {
         },
         // HACK 百度的打包规则 项目暂时还没有这么多东西 待后续增加或者修改
         output: {
+          /**
+           * (!) Some chunks are larger than 1000 kB after minification. Consider:
+           * - Using dynamic import() to code-split the application
+           * - Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+           * - Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+           * ✓ built in 21.00s
+           * manualChunks 解决以上警告问题，也加速了页面加载速度
+           */
+          manualChunks(id) {
+            // 方案 （1）
+            // if (id.includes("node_modules")) {
+            //  // console.log("before", id);
+            //  // console.log(
+            //  //  "after",
+            //  //  id.toString().split("node_modules/")[1].split("/")[0].toString()
+            //  // );
+            //  return id.toString().split("node_modules/")[1].split("/")[0].toString();
+            // }
+            // 方案 （2）
+            if (id.includes("node_modules")) {
+              const arr = id.toString().split("node_modules/")[1].split("/");
+              switch (arr[0]) {
+                case "@naturefw": // 自然框架
+                case "@popperjs":
+                case "@vue":
+                case "element-plus": // UI 库
+                case "@element-plus": // 图标
+                  return "_" + arr[0];
+                  break;
+                default:
+                  return "__vendor";
+                  break;
+              }
+            }
+          },
           chunkFileNames: "js/[name]-[hash].js",
           entryFileNames: "js/[name]-[hash].js",
           assetFileNames: assetInfo => {
