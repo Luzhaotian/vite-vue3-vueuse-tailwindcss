@@ -69,3 +69,9 @@
 
 - 增加 ESlint 插件
 - 增加 Prettier 插件
+
+## v1.0.2 (2024-04-22)
+
+### 添加
+
+- 增加 Vite rollupOptions output manualChunks 配置信息
