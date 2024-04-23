@@ -2,11 +2,12 @@
   <template v-for="item in menuData" :key="item.id">
     <el-menu-item
       v-if="!item.children"
-      :index="item.nameEn"
-      @click="item.urlPath ? routerLink(item.urlPath) : null"
+      :index="item.index"
+      :class="[`${item.urlPath}_01`]"
+      @click="item.urlPath ? routerLink(item) : null"
       >{{ isLang ? item.nameZh : item.nameEn }}</el-menu-item
     >
-    <el-sub-menu v-else :index="item.nameEn">
+    <el-sub-menu v-else :index="item.index" :class="[`${item.urlPath}_01`]">
       <template #title>
         <span>{{ isLang ? item.nameZh : item.nameEn }}</span>
       </template>
@@ -30,12 +31,13 @@ defineProps({
 // 获取路由
 const router = useRouter();
 
-const routerLink = path => {
+const routerLink = ({ urlPath, index }) => {
   router.push({
-    path,
+    path: urlPath,
     query: {
       lang: i18n.global.locale,
-      t: new Date().getTime()
+      t: new Date().getTime(),
+      index
     }
   });
 };

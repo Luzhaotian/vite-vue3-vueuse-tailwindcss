@@ -13,6 +13,21 @@ const menu = [
         name: "userList"
       }
     ]
+  },
+  {
+    nameZh: "文件管理",
+    nameEn: "Files Management",
+    name: "filesManagement",
+    index: "filesManagement",
+    children: [
+      {
+        urlPath: "/files",
+        nameZh: "文件列表",
+        nameEn: "Files List",
+        index: "filesList",
+        name: "filesList"
+      }
+    ]
   }
 ];
 

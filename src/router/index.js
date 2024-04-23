@@ -32,7 +32,18 @@ const routes = [
         component: () => import("@/views/user/index.vue")
       }
     ]
-  }
+  },
+  {
+    name: "files",
+    component: layout,
+    children: [
+      {
+        path: "/files",
+        name: "files",
+        component: () => import("@/views/Files/index.vue")
+      }
+    ]
+  },
 ];
 
 if (import.meta.env.VITE_USER_NODE_ENV == "development") {

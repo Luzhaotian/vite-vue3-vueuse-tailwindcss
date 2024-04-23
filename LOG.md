@@ -75,3 +75,13 @@
 ### 添加
 
 - 增加 Vite rollupOptions output manualChunks 配置信息
+
+## v1.0.0 (2024-04-23)
+
+### 修复
+
+- 修复格式化报错
+
+### 添加
+
+- 利用动态组件尝试再一次封装 Form 表单
