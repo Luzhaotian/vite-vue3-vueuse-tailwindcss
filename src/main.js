@@ -1,6 +1,9 @@
 import "./assets/css/main.css";
 import "./index.css";
 import "element-plus/dist/index.css";
+// main.ts
+// 如果只想导入css变量
+import "element-plus/theme-chalk/dark/css-vars.css";
 
 /**
  * [Violation] Added non-passive event listener to a scroll-blocking 'touchstart' event. Consider marking event handler as

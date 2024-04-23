@@ -56,15 +56,3 @@
 .flex-ec {
   @apply flex justify-end items-center;
 }
-
-.el-table .el-table__header th.el-table__cell {
-  height: 50px;
-  background: rgb(235, 235, 235);
-  /* background-color: blueviolet; */
-}
-
-.el-table .el-table__header th.el-table__cell .cell {
-  color: #606266;
-  font-size: 14px;
-  font-weight: bold;
-}
