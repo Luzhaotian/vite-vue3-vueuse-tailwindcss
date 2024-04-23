@@ -148,7 +148,6 @@ const searchList = [
     value: "sex",
     type: "select",
     placeholder: "请输入性别",
-    // TODO 目前一直存在问题，待修复，目前解决办法是通过 useSetOptions 循环查找赋值进去
     children: optionsStore.getOptions(`sex`)
   },
   {
@@ -160,72 +159,11 @@ const searchList = [
   }
 ];
 
-// console.log(optionsStore.getOptions(`sex`), "optionsStore.getOptions(`sex`)");
-
-// const mySearchList = computed(
-//   () => searchList,
-//   v => {
-//     console.log(v, "v");
-//     return v;
-//   }
-// );
-
-watch(
-  () => searchList,
-  v => {
-    console.log(v, "v");
-    return v;
-  },
-  {
-    deep: true,
-    immediate: true
-  }
-);
-
 const onSearch = v => {
   console.log(v);
 };
 
-// const getOptionsData = () => {
-//   // 延时器模拟接口
-//   new Promise(resolve => {
-//     setTimeout(() => {
-//       resolve({
-//         code: 200,
-//         data: [
-//           {
-//             label: "男",
-//             value: "1"
-//           },
-//           {
-//             label: "女",
-//             value: "2"
-//           }
-//         ]
-//       });
-//     }, 500);
-//   }).then(() => {
-//     /**
-//      * 目前的解决方案 但是这不是我想要的 但是当时使用的时候项目紧急 临时处理
-//      * type 是的 searchList 里的 value
-//      * list 是 searchList
-//      * data 是接口返回的数据 需要接口数据的值转一下 {label: string, value: string}[]
-//      */
-//     useSetOptions({
-//     	type: "sex", // 绑定的 type
-//     	list: searchList, // 绑定的 list
-//     	data: data.data, // 接口返回的数据
-//     });
-//   });
-// };
-
-// const getOptionsData = () => {
-//   // optionsStore
-// };
-
-tryOnBeforeMount(() => {
-  // getOptionsData();
-});
+tryOnBeforeMount(() => {});
 </script>
 
 <style lang="scss" scoped></style>

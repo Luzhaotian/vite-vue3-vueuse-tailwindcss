@@ -43,7 +43,7 @@ const routes = [
         component: () => import("@/views/Files/index.vue")
       }
     ]
-  },
+  }
 ];
 
 if (import.meta.env.VITE_USER_NODE_ENV == "development") {

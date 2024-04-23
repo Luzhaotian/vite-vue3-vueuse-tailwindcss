@@ -3,6 +3,7 @@
 import { defineStore, acceptHMRUpdate } from "pinia";
 import { sessionStorageGetItem, sessionStorageSetItem } from "@/utils/storage.js";
 import { isEmpty } from "lodash";
+// import { data } from "autoprefixer";
 export const useOptionsStore = defineStore({
   id: "options",
 
@@ -10,10 +11,10 @@ export const useOptionsStore = defineStore({
   getters: {},
 
   actions: {
-    async setOptions(name) {
+    setOptions(name) {
       if (!sessionStorageGetItem(name)) {
         // 延时器模拟接口
-        const data = await new Promise(resolve => {
+        new Promise(resolve => {
           setTimeout(() => {
             resolve({
               code: 200,
@@ -29,25 +30,21 @@ export const useOptionsStore = defineStore({
               ]
             });
           }, 500);
+        }).then(data => {
+          this[name] = data.data;
+          sessionStorageSetItem(name, data.data);
+          return data.data;
         });
-        // console.log(data, "data");
-        this[name] = data.data;
-        sessionStorageSetItem(name, data.data);
-        // debugger;
-        return data.data;
       } else {
-        // debugger;
         this[name] = sessionStorageGetItem(name);
         return sessionStorageGetItem(name);
       }
     },
-    async getOptions(name) {
+    getOptions(name) {
       if (isEmpty(this.$state)) {
-        const data = await this.setOptions(name);
-        console.log(data, "data");
+        const data = this.setOptions(name);
         return data;
       } else if (this[name]) {
-        console.log(this[name], "this[name]");
         return this[name];
       }
       return [];

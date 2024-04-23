@@ -42,30 +42,6 @@ npm run test
 npm run dev
 ```
 
-<table style="width:100%;">
-<tr>
-<td >
-<font color=808080>
-运行 lint:prettier 需要吧 package.json 中的 type module 删除
-然后后面启动项目会报语法问题，就需要恢复 type 属性
- </font> 
- </td>
- </tr>
-<tr>
-<td >
-<font color=808080>
-   如需自动保存格式化代码，可以在项目根目录下新建 .vscode 文件夹，新建 settings.json 文件，内容如下：
-
-`"editor.formatOnSave": true,`
-`"editor.defaultFormatter": "esbenp.prettier-vscode"`
-
-其他配置在.prettierrc.js
-</font>
-
- </td>
- </tr>
- </table>
-
 ### 本人邮箱 欢迎联系我
 
 ```sh
