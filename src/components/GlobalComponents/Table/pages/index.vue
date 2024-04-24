@@ -6,6 +6,7 @@ import { ref, watch, computed } from "vue";
 import Pagination from "@/components/GlobalComponents/Pagination";
 import { Download } from "@element-plus/icons-vue";
 import { downloadFile } from "@/libs/downloadFile";
+import { useLoadingStore } from "@/stores/loading.js";
 
 const props = defineProps({
   /**
@@ -41,10 +42,10 @@ const props = defineProps({
   /**
    * 表格loading
    */
-  tableLoading: {
-    type: Boolean,
-    default: false
-  },
+  // tableLoading: {
+  //   type: Boolean,
+  //   default: false
+  // },
   /**
    * 分页器参数
    */
@@ -72,6 +73,7 @@ const emits = defineEmits(["on-pagination-change"]);
 
 const tpaCurrentPage = props?.tablePaginationArg?.currentPage ?? 1;
 const tpaPageSize = props?.tablePaginationArg?.pageSize ?? 10;
+const loadingStore = useLoadingStore();
 
 const myTableData = ref([]);
 const currentPage = ref(tpaCurrentPage);
@@ -186,11 +188,14 @@ const downloadClick = () => {
 		Vue3 虽然支持不使用根标签，但是会影响 scoped 的穿透样式，所以增加根标签
 	-->
   <div>
-    <!-- :highlight-current-row="highlightCurrentRow" -->
+    <!-- 
+      :highlight-current-row="highlightCurrentRow" 
+      v-loading="tableLoading"
+    -->
     <el-table
       ref="ElTableRef"
       v-bind="$attrs"
-      v-loading="tableLoading"
+      v-loading="loadingStore.loading"
       style="width: 100%"
       :data="myTableData"
       :border="$attrs.border ?? true"

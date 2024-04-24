@@ -17,6 +17,7 @@ defineOptions({
 });
 
 const optionsStore = useOptionsStore();
+optionsStore.getOptions(`sex`);
 const form = reactive({
   name: "",
   age: "",
@@ -49,7 +50,7 @@ const searchList = ref([
     formItemProps: {
       label: "年龄"
     },
-    children: optionsStore.getOptions(`sex`),
+    children: computed(() => optionsStore.sex),
     props: {
       placeholder: "请选择年龄",
       modelName: "age"

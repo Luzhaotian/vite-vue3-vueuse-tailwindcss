@@ -29,7 +29,7 @@ export const useOptionsStore = defineStore({
                 }
               ]
             });
-          }, 500);
+          }, 5000);
         }).then(data => {
           this[name] = data.data;
           sessionStorageSetItem(name, data.data);

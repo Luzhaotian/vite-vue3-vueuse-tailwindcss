@@ -1,7 +1,5 @@
 <script setup>
-defineOptions({
-  name: "SearchForm"
-});
+import { useLoadingStore } from "@/stores/loading.js";
 import {
   reactive,
   // getCurrentInstance,
@@ -10,6 +8,9 @@ import {
 // import { isFunction, isArray } from "lodash";
 
 // const { ctx } = getCurrentInstance();
+defineOptions({
+  name: "SearchForm"
+});
 
 const formSearchRef = ref();
 
@@ -45,10 +46,10 @@ const props = defineProps({
   /**
    * 搜索按钮 loading 结合列表 loading 使用
    */
-  searchLoading: {
-    type: Boolean,
-    default: false
-  },
+  // searchLoading: {
+  //   type: Boolean,
+  //   default: false
+  // },
   /**
    * 搜索表单规则
    */
@@ -67,6 +68,7 @@ const emits = defineEmits(["on-search", "on-reset"]);
 const rulesForm = props?.rulesForm ?? {};
 const labelWidth = props?.formLabelWidth ?? "auto";
 const propForm = props?.form ?? {};
+const loadingStore = useLoadingStore();
 
 const formInline = reactive(propForm);
 const rules = reactive(rulesForm);
@@ -178,9 +180,13 @@ const onReset = formEl => {
         </template>
         <el-col :span="6" style="display: flex; width: 100%; margin-left: auto" v-if="isActions">
           <div style="margin-left: auto">
-            <el-button type="primary" :loading="searchLoading" @click="onSubmit(formSearchRef)">{{
-              $t("common.search")
-            }}</el-button>
+            <!-- :loading="searchLoading" -->
+            <el-button
+              type="primary"
+              :loading="loadingStore.loading"
+              @click="onSubmit(formSearchRef)"
+              >{{ $t("common.search") }}</el-button
+            >
             <el-button v-if="isResetBtn" type="primary" @click="onReset(formSearchRef)">{{
               $t("common.reset")
             }}</el-button>
