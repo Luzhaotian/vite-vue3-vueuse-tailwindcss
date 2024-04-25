@@ -2,20 +2,38 @@
   <!-- Test wh-full -->
   <div class="wh-full">
     <SearchForm :form="form" :searchList="searchList" @on-search="onSearch" />
-    <Table :table-column="tableColumn" :table-data="tableData" />
+    <Table
+      :table-pagination-arg="{
+        ...pagination,
+        ...{ currentPage: params.currentPage, pageSize: params.pageSize }
+      }"
+      :table-column="tableColumn"
+      :table-data="tableData"
+    />
   </div>
 </template>
 
 <script setup>
 import Table from "@/components/GlobalComponents/Table";
 import SearchForm from "@/components/GlobalComponents/SearchForm";
-import { computed, ref, watch, reactive } from "vue";
+import { computed, ref, reactive } from "vue";
 import { tryOnBeforeMount } from "@vueuse/core";
 // import { useSetOptions } from "@/hooks/useSetOptions.js";
 import { useOptionsStore } from "@/stores/options.js";
 
 defineOptions({
   name: "User"
+});
+
+const params = reactive({
+  currentPage: 1,
+  pageSize: 10
+});
+
+const pagination = reactive({
+  total: 0,
+  pageSizes: [10, 20, 30, 40, 50, 100],
+  layout: "total, sizes, prev, pager, next, jumper"
 });
 
 const optionsStore = useOptionsStore();
@@ -115,7 +133,7 @@ const tableData = ref([
   }
 ]);
 
-const searchList = [
+const searchList = reactive([
   {
     label: "姓名",
     value: "name",
@@ -148,7 +166,7 @@ const searchList = [
     value: "sex",
     type: "select",
     placeholder: "请输入性别",
-    children: optionsStore.getOptions(`sex`)
+    children: computed(() => optionsStore.sex)
   },
   {
     label: "生日",
@@ -157,13 +175,15 @@ const searchList = [
     placeholder: "请选择生日",
     pickerType: "daterange"
   }
-];
+]);
 
 const onSearch = v => {
   console.log(v);
 };
 
-tryOnBeforeMount(() => {});
+tryOnBeforeMount(() => {
+  optionsStore.setOptions(`sex`);
+});
 </script>
 
 <style lang="scss" scoped></style>

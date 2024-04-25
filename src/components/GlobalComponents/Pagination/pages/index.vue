@@ -10,12 +10,12 @@ const prop = defineProps({
 });
 
 const currentPage = computed({
-  get: () => prop.currentPage,
+  get: () => prop.page,
   set: val => emit("update:page", val)
 });
 
 const pageSize = computed({
-  get: () => prop.pageSize,
+  get: () => prop.size,
   set: val => emit("update:size", val)
 });
 </script>

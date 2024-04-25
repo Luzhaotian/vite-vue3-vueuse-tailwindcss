@@ -91,6 +91,20 @@ watch(
   { immediate: true, deep: true }
 );
 
+// 或者使用单一watcher监听多个依赖
+watch(
+  () => [props.tablePaginationArg.currentPage, props.tablePaginationArg.pageSize],
+  ([newCurrentPage, newPageSize], [oldCurrentPage, oldPageSize]) => {
+    console.log(newCurrentPage, newPageSize);
+    if (newCurrentPage) {
+      currentPage.value = newCurrentPage;
+    }
+    if (newPageSize) {
+      pageSize.value = newPageSize;
+    }
+  }
+);
+
 /**
  * 监听表头
  */

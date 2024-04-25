@@ -1,18 +1,20 @@
 // menuStore.js
 
 import { defineStore, acceptHMRUpdate } from "pinia";
-import { sessionStorageGetItem, sessionStorageSetItem } from "@/utils/storage.js";
+import {
+  sessionStorageGetItem,
+  sessionStorageSetItem,
+  isSessionStorageGetItem
+} from "@/utils/storage.js";
 import { isEmpty } from "lodash";
-// import { data } from "autoprefixer";
+
 export const useOptionsStore = defineStore({
   id: "options",
-
   state: () => ({}),
   getters: {},
-
   actions: {
     setOptions(name) {
-      if (!sessionStorageGetItem(name)) {
+      if (!isSessionStorageGetItem(name)) {
         // 延时器模拟接口
         new Promise(resolve => {
           setTimeout(() => {
@@ -33,11 +35,11 @@ export const useOptionsStore = defineStore({
         }).then(data => {
           this[name] = data.data;
           sessionStorageSetItem(name, data.data);
-          return data.data;
+          // return data.data;
         });
       } else {
         this[name] = sessionStorageGetItem(name);
-        return sessionStorageGetItem(name);
+        // return sessionStorageGetItem(name);
       }
     },
     getOptions(name) {

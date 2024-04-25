@@ -15,9 +15,8 @@ import { useOptionsStore } from "@/stores/options.js";
 defineOptions({
   name: "Files"
 });
-
 const optionsStore = useOptionsStore();
-optionsStore.getOptions(`sex`);
+
 const form = reactive({
   name: "",
   age: "",
@@ -25,7 +24,7 @@ const form = reactive({
   sex: "",
   birthday: []
 });
-const searchList = ref([
+const searchList = reactive([
   {
     component: "ElInput",
     formItemProps: {
@@ -63,23 +62,13 @@ const searchList = ref([
   }
 ]);
 
-watch(
-  () => searchList,
-  v => {
-    console.log(v, "v");
-    return v;
-  },
-  {
-    deep: true,
-    immediate: true
-  }
-);
-
 const onSearch = v => {
   console.log(v);
 };
 
-tryOnBeforeMount(() => {});
+tryOnBeforeMount(() => {
+  optionsStore.setOptions(`sex`);
+});
 </script>
 
 <style lang="scss" scoped></style>
