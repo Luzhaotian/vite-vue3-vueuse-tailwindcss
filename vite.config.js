@@ -85,6 +85,12 @@ export default defineConfig(root => {
                 case "@vue":
                 case "element-plus": // UI 库
                 case "@element-plus": // 图标
+                case "@vueuse": // 函数
+                case "lodash": // lodash
+                case "lodash-es": // lodash
+                case "pinia": // pinia
+                case "vue-i18n": // i18
+                case "vue-router": // vue-router
                   return "_" + arr[0];
                   break;
                 default:
@@ -93,16 +99,16 @@ export default defineConfig(root => {
               }
             }
           },
-          chunkFileNames: "js/[name]-[hash].js",
-          entryFileNames: "js/[name]-[hash].js",
+          chunkFileNames: "js/vite-vue3-vueuse-tailwindcss-[name]-[hash].js",
+          entryFileNames: "js/vite-vue3-vueuse-tailwindcss-[name]-[hash].js",
           assetFileNames: assetInfo => {
             if (assetInfo.type === "asset" && /\.(jpe?g|png|gif|svg)$/i.test(assetInfo.name)) {
-              return "img/[name].[hash].[ext]";
+              return "img/vite-vue3-vueuse-tailwindcss-[name].[hash].[ext]";
             }
             if (assetInfo.type === "asset" && /\.(ttf|woff|woff2|eot)$/i.test(assetInfo.name)) {
-              return "fonts/[name].[hash].[ext]";
+              return "fonts/vite-vue3-vueuse-tailwindcss-[name].[hash].[ext]";
             }
-            return "[ext]/name[hash]-[hash].[ext]";
+            return "[ext]/vite-vue3-vueuse-tailwindcss-[name]-[hash].[ext]";
           }
         }
       }

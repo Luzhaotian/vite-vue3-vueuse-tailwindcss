@@ -185,11 +185,12 @@ const onReset = formEl => {
               type="primary"
               :loading="loadingStore.loading"
               @click="onSubmit(formSearchRef)"
-              >{{ $t("common.search") }}</el-button
             >
-            <el-button v-if="isResetBtn" type="primary" @click="onReset(formSearchRef)">{{
-              $t("common.reset")
-            }}</el-button>
+              {{ $t("common.search") }}
+            </el-button>
+            <el-button v-if="isResetBtn" type="primary" @click="onReset(formSearchRef)">
+              {{ $t("common.reset") }}
+            </el-button>
           </div>
         </el-col>
       </el-row>

@@ -5,8 +5,9 @@
       :index="item.index"
       :class="[`${item.urlPath}_01`]"
       @click="item.urlPath ? routerLink(item) : null"
-      >{{ isLang ? item.nameZh : item.nameEn }}</el-menu-item
     >
+      {{ isLang ? item.nameZh : item.nameEn }}
+    </el-menu-item>
     <el-sub-menu v-else :index="item.index" :class="[`${item.urlPath}_01`]">
       <template #title>
         <span>{{ isLang ? item.nameZh : item.nameEn }}</span>
