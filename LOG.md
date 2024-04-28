@@ -119,3 +119,9 @@
 
 - prettier 增加部分配置，符合自身的格式化样式
 - Vite 优化打包配置 manualChunks 函数
+
+## v1.0.8 (2024-04-29)
+
+### 添加
+
+- 在 Pagination 组件中联系增加 defineModel 使用
