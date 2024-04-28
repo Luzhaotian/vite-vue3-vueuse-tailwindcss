@@ -2,11 +2,12 @@
 defineOptions({
   name: "TableComponent"
 });
-import { ref, watch, computed } from "vue";
+import { ref, watch, computed, getCurrentInstance } from "vue";
 import Pagination from "@/components/GlobalComponents/Pagination";
 import { Download } from "@element-plus/icons-vue";
 import { downloadFile } from "@/libs/downloadFile";
 import { useLoadingStore } from "@/stores/loading.js";
+import { tryOnMounted } from "@vueuse/core";
 
 const props = defineProps({
   /**
@@ -65,11 +66,12 @@ const props = defineProps({
    */
   isPaginationBox: {
     type: Boolean,
-    default: true
+    default: false
   }
 });
 
 const emits = defineEmits(["on-pagination-change"]);
+const { proxy } = getCurrentInstance();
 
 const tpaCurrentPage = props?.tablePaginationArg?.currentPage ?? 1;
 const tpaPageSize = props?.tablePaginationArg?.pageSize ?? 10;
@@ -95,7 +97,7 @@ watch(
 watch(
   () => [props.tablePaginationArg.currentPage, props.tablePaginationArg.pageSize],
   ([newCurrentPage, newPageSize], [oldCurrentPage, oldPageSize]) => {
-    console.log(newCurrentPage, newPageSize);
+    // console.log(newCurrentPage, newPageSize);
     if (newCurrentPage) {
       currentPage.value = newCurrentPage;
     }
@@ -194,6 +196,10 @@ const downloadClick = () => {
     }
   );
 };
+
+tryOnMounted(() => {
+  // console.log(proxy.$slots);
+});
 </script>
 
 <template>
@@ -202,10 +208,6 @@ const downloadClick = () => {
 		Vue3 虽然支持不使用根标签，但是会影响 scoped 的穿透样式，所以增加根标签
 	-->
   <div>
-    <!-- 
-      :highlight-current-row="highlightCurrentRow" 
-      v-loading="tableLoading"
-    -->
     <el-table
       ref="ElTableRef"
       v-bind="$attrs"
@@ -215,6 +217,9 @@ const downloadClick = () => {
       :border="$attrs.border ?? true"
       :stripe="stripe"
     >
+      <template v-for="(value, key) in $slots" :key="key" #[key]="scope">
+        <slot :name="key" v-bind="scope"></slot>
+      </template>
       <template v-for="(c, k) in myTableColumn" :key="`col_${k}`">
         <el-table-column v-if="c.type === 'selection'" type="selection" />
         <el-table-column
@@ -239,11 +244,6 @@ const downloadClick = () => {
             <slot :name="c.slot" :tableSlotColum="c" :tableRow="scoped.row" />
           </template>
         </el-table-column>
-      </template>
-
-      <!-- 无内容插槽 -->
-      <template #empty>
-        <slot name="myTableEmpty" />
       </template>
     </el-table>
     <div

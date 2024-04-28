@@ -125,3 +125,4 @@
 ### 添加
 
 - 在 Pagination 组件中联系增加 defineModel 使用
+- 在 Table 组件增加继承 slot
