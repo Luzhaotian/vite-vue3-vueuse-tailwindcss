@@ -2,9 +2,11 @@ export default {
   login: {
     userName: "用户名",
     password: "密码",
-    language: "语言"
+    language: "语言",
+    login: "登录"
   },
   common: {
+    home: "首页",
     publish: "发布",
     revocation: "撤回",
     pleaseSelect: "请选择",

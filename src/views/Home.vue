@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    {{ title }}
+    {{ $t("common.home") }}
   </div>
 </template>
 
@@ -15,8 +15,6 @@ import { tryOnMounted } from "@vueuse/core";
 defineOptions({
   name: "Home"
 });
-
-const title = ref("主页");
 
 // 这里获取全局对象
 const { proxy } = getCurrentInstance();

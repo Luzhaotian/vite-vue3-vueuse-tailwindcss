@@ -1,73 +1,97 @@
 <script setup>
-import { ref, getCurrentInstance } from "vue";
-// import { setToken } from "@/libs/setUps.js";
+import { ref, getCurrentInstance, nextTick, onMounted } from "vue";
 import { getLang } from "@/libs/common.js";
 import { ElMessage } from "element-plus";
 import { useSessionStorage } from "@vueuse/core";
+import i18n from "@/libs/i18n.js";
 
 defineOptions({
   name: "Login"
 });
 
-// const token = ref("");
 const username = ref("");
 const password = ref("");
+const language = ref("");
 
 const isLoading = ref(false);
 // 这里获取全局对象
 const { proxy } = getCurrentInstance();
 
-const login = async () => {
-  // console.log(token.value);
+const langChange = l => {
+  i18n.global.locale = l;
+};
+
+const init = () => {
+  const radio = document.querySelectorAll('input[type="radio"]');
+  radio.forEach(item => {
+    item.addEventListener("change", value => {
+      langChange(value.target.value);
+    });
+  });
+};
+
+const login = () => {
   isLoading.value = true;
 
-  try {
-    // 这里模拟一个异步操作，例如发送请求
-    await new Promise(resolve => setTimeout(resolve, 200));
+  nextTick(async () => {
+    try {
+      // 这里模拟一个异步操作，例如发送请求
+      await new Promise(resolve => setTimeout(resolve, 200));
 
-    // 请求完成后重置 loading 状态
-    isLoading.value = false;
-    // 添加token和用户信息
-    // setToken(token.value);
+      // 请求完成后重置 loading 状态
+      isLoading.value = false;
+      // 添加token和用户信息
+      // setToken(token.value);
 
-    ElMessage({
-      message: "登陆成功",
-      type: "success",
-      duration: 5 * 1000,
-      showClose: true
-    });
+      ElMessage({
+        message: "登陆成功",
+        type: "success",
+        duration: 5 * 1000,
+        showClose: true
+      });
 
-    useSessionStorage("USER_INFO", {
-      username: username.value,
-      password: password.value
-    });
+      // language.value = getLang();
 
-    // console.log(state.value);
-    // if (import.meta.env.VITE_USER_NODE_ENV === "development") {
-    proxy.$router.push({
-      name: "home",
-      query: {
-        lang: getLang(),
-        t: new Date().getTime()
-      }
-    });
-    // }
-  } catch (error) {
-    console.error(error);
-    isLoading.value = false;
-  }
+      const lang = document.querySelector('input[type="radio"]:checked');
+      language.value = lang.value;
+      useSessionStorage("USER_INFO", {
+        username: username.value,
+        password: password.value,
+        language: language.value
+      });
+
+      // if (import.meta.env.VITE_USER_NODE_ENV === "development") {
+      proxy.$router.push({
+        name: "home",
+        query: {
+          lang: language.value ?? getLang(),
+          t: new Date().getTime()
+        }
+      });
+      // }
+    } catch (error) {
+      console.error(error);
+      isLoading.value = false;
+    }
+  });
 };
+
+onMounted(() => {
+  init();
+});
 </script>
 
 <template>
   <div class="min-h-screen flex items-center justify-center bg-gray-50">
     <div class="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-lg">
       <div>
-        <h2 class="text-center text-3xl font-extrabold text-gray-900">登录</h2>
+        <h2 class="text-center text-3xl font-extrabold text-gray-900">{{ $t("login.login") }}</h2>
       </div>
       <form class="mt-8 space-y-6" @submit.prevent="login">
         <div>
-          <label for="username" class="block text-sm font-medium text-gray-700">用户名</label>
+          <label for="username" class="block text-sm font-medium text-gray-700">
+            {{ $t("login.userName") }}
+          </label>
           <input
             id="username"
             v-model="username"
@@ -77,7 +101,9 @@ const login = async () => {
           />
         </div>
         <div>
-          <label for="password" class="block text-sm font-medium text-gray-700">密码</label>
+          <label for="password" class="block text-sm font-medium text-gray-700">
+            {{ $t("login.password") }}
+          </label>
           <input
             id="password"
             v-model="password"
@@ -88,11 +114,34 @@ const login = async () => {
           />
         </div>
         <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            {{ $t("login.language") }}
+          </label>
+          <div
+            class="flex justify-between rounded-md border-solid border border-indigo-600 h-9 my-2"
+          >
+            <label
+              for="zh"
+              class="flex-cc w-1/2 has-[:checked]:bg-indigo-600 has-[:checked]:text-white cursor-pointer"
+            >
+              <span>中文</span>
+              <input type="radio" name="lang" value="CN" id="zh" class="mr-2" checked hidden />
+            </label>
+            <label
+              for="en"
+              class="flex-cc w-1/2 has-[:checked]:bg-indigo-600 has-[:checked]:text-white cursor-pointer"
+            >
+              <span>English</span>
+              <input type="radio" name="lang" value="EN" id="en" class="mr-2" hidden />
+            </label>
+          </div>
+        </div>
+        <div>
           <button
             type="submit"
             class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            <span v-show="!isLoading">提交</span>
+            <span v-show="!isLoading">{{ $t("login.login") }}</span>
             <div v-show="isLoading" class="spinner">
               <svg
                 class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"

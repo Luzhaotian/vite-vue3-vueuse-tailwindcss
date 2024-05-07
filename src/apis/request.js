@@ -58,7 +58,6 @@ service.interceptors.response.use(
       showClose: true
     });
     // 全局更新loading状态
-    // store.dispatch("loadingShow", false);
     return Promise.reject(error);
   }
 );

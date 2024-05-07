@@ -2,9 +2,11 @@ export default {
   login: {
     userName: "User Name",
     password: "Password",
-    language: "language"
+    language: "language",
+    login: "Login"
   },
   common: {
+    home: "Home",
     publish: "Publish",
     revocation: "Revocation",
     pleaseSelect: "Please Select",
