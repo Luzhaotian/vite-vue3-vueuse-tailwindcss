@@ -128,7 +128,7 @@ const onReset = formEl => {
             >
               <component
                 :is="item.component"
-                v-model="formInline[item.modelName]"
+                v-model.trim="formInline[item.modelName]"
                 v-bind="item.props"
                 v-on="item.on ?? {}"
               >

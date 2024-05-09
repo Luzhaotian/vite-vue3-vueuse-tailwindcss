@@ -127,8 +127,15 @@
 - 在 Pagination 组件中联系增加 defineModel 使用
 - 在 Table 组件增加继承 slot
 
-## v1.0.10 (2024-07-07)
+## v1.0.10 (2024-05-07)
 
 ### 添加
 
 - 登录页增加语言切换（自己耶练习 Tailwind Css）
+
+## v1.0.11 (2024-05-09)
+
+### 修复
+
+- 升级 Element Plus 版本
+- 升级 Element Plus 版本以后使用 SearchForm 组件会出现一个 input label 的警告 可以采用 SearchFormDynamic 组件就不会出现了

@@ -1,6 +1,6 @@
 {
   "name": "vite-vue3-vueuse-tailwindcss",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "private": true,
   "type": "module",
   "scripts": {
@@ -16,7 +16,7 @@
     "@vueuse/core": "^10.9.0",
     "axios": "^1.6.7",
     "default-passive-events": "^2.0.0",
-    "element-plus": "^2.6.1",
+    "element-plus": "^2.7.2",
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "pinia": "^2.1.7",
