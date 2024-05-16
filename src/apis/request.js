@@ -3,8 +3,8 @@ import { ElMessage } from "element-plus";
 import { useLoadingStore } from "@/stores/loading.js";
 
 const service = axios.create({
-  baseURL: import.meta.env.VITE_APP_BASE_API // 配置请求后端接口的前缀（域名，地址）
-  // timeout: 90000, // 请求超时时间
+  baseURL: import.meta.env.VITE_APP_BASE_API, // 配置请求后端接口的前缀（域名，地址）
+  timeout: 1000 * 60 // 请求超时时间 1 分钟 这里是为了超时要取消 loading 状态 loading 的 count - 1 建议超时时间要有 不然会存在某一个接口时间过长导师 loading 关闭不了
 });
 
 // 请求拦截器
@@ -28,6 +28,10 @@ service.interceptors.request.use(
     return config;
   },
   error => {
+    // 获取 loading 状态
+    const loadingStore = useLoadingStore();
+    // 关闭 loading
+    loadingStore.closeLoading();
     return Promise.reject(error);
   }
 );
@@ -57,6 +61,10 @@ service.interceptors.response.use(
       duration: 5 * 1000,
       showClose: true
     });
+    // 获取 loading 状态
+    const loadingStore = useLoadingStore();
+    // 关闭 loading
+    loadingStore.closeLoading();
     // 全局更新loading状态
     return Promise.reject(error);
   }

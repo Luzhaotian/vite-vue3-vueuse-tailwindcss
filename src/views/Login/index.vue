@@ -3,6 +3,7 @@ import { ref, getCurrentInstance, nextTick, onMounted } from "vue";
 import { getLang } from "@/libs/common.js";
 import { ElMessage } from "element-plus";
 import { useSessionStorage } from "@vueuse/core";
+import { useLoadingStore } from "@/stores/loading.js";
 import i18n from "@/libs/i18n.js";
 
 defineOptions({
@@ -13,7 +14,9 @@ const username = ref("");
 const password = ref("");
 const language = ref("");
 
-const isLoading = ref(false);
+// const isLoading = ref(false);
+const loadingStore = useLoadingStore();
+
 // 这里获取全局对象
 const { proxy } = getCurrentInstance();
 
@@ -31,15 +34,17 @@ const init = () => {
 };
 
 const login = () => {
-  isLoading.value = true;
+  // isLoading.value = true;
+  loadingStore.openLoading();
 
   nextTick(async () => {
     try {
       // 这里模拟一个异步操作，例如发送请求
-      await new Promise(resolve => setTimeout(resolve, 200));
+      await new Promise(resolve => setTimeout(resolve, 2000));
 
       // 请求完成后重置 loading 状态
-      isLoading.value = false;
+      // isLoading.value = false;
+      loadingStore.closeLoading();
       // 添加token和用户信息
       // setToken(token.value);
 
@@ -71,7 +76,8 @@ const login = () => {
       // }
     } catch (error) {
       console.error(error);
-      isLoading.value = false;
+      // isLoading.value = false;
+      loadingStore.closeLoading();
     }
   });
 };
@@ -97,7 +103,8 @@ onMounted(() => {
             v-model="username"
             type="text"
             required
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:text-white placeholder:dark:text-gray-600"
+            :placeholder="$t('login.userName')"
           />
         </div>
         <div>
@@ -110,7 +117,8 @@ onMounted(() => {
             type="password"
             required
             autocomplete=""
-            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:text-white placeholder:dark:text-gray-600"
+            :placeholder="$t('login.password')"
           />
         </div>
         <div>
@@ -122,14 +130,14 @@ onMounted(() => {
           >
             <label
               for="zh"
-              class="flex-cc w-1/2 has-[:checked]:bg-indigo-600 has-[:checked]:text-white cursor-pointer"
+              class="text-indigo-600 flex-cc w-1/2 has-[:checked]:bg-indigo-600 has-[:checked]:text-white cursor-pointer"
             >
               <span>中文</span>
               <input type="radio" name="lang" value="CN" id="zh" class="mr-2" checked hidden />
             </label>
             <label
               for="en"
-              class="flex-cc w-1/2 has-[:checked]:bg-indigo-600 has-[:checked]:text-white cursor-pointer"
+              class="text-indigo-600 flex-cc w-1/2 has-[:checked]:bg-indigo-600 has-[:checked]:text-white cursor-pointer"
             >
               <span>English</span>
               <input type="radio" name="lang" value="EN" id="en" class="mr-2" hidden />
@@ -141,8 +149,8 @@ onMounted(() => {
             type="submit"
             class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            <span v-show="!isLoading">{{ $t("login.login") }}</span>
-            <div v-show="isLoading" class="spinner">
+            <span v-show="!loadingStore.loading">{{ $t("login.login") }}</span>
+            <div v-show="loadingStore.loading" class="spinner">
               <svg
                 class="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                 xmlns="http://www.w3.org/2000/svg"

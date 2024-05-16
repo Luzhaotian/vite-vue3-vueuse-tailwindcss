@@ -139,3 +139,15 @@
 
 - 升级 Element Plus 版本
 - 升级 Element Plus 版本以后使用 SearchForm 组件会出现一个 input label 的警告 可以采用 SearchFormDynamic 组件就不会出现了
+
+## v1.0.12 (2024-05-16)
+
+### 添加
+
+- 增加全局 Loading 通过接口统一管理 多个异步请求最后一个请求完成才会关闭 Loading
+- 增加工具互斥锁
+
+### 修复
+
+- 修复登录页 Dark 模式下字体颜色问题
+- 更新部分 npm 包版本
