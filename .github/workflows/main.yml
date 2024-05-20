@@ -30,10 +30,11 @@ jobs:
       - name: Set git email
         run: git config --global user.email "lu199705@163.com"
 
-      -name: Get name and email
-        run: |
-          git config --global user.name 
-          git config --global user.email
+      -name: Get name 
+        run: git config --global user.name 
+      
+      -name: Get email
+        run: git config --global user.email
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
