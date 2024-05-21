@@ -1,7 +1,7 @@
 name: Vite Vue3 Vueuse Tailwind Css
 
 # permissions:
-#   contents: read  
+#   contents: read
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-     permissions:
+    permissions:
       contents: write
 
     steps:
@@ -37,7 +37,7 @@ jobs:
 
       # - name: Get name and email
       #   run: |
-      #     git config --global user.name 
+      #     git config --global user.name
       #     git config --global user.email
 
       - name: Deploy to GitHub Pages
