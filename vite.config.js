@@ -17,7 +17,7 @@ export default defineConfig(root => {
   const isProd = mode === "production";
   return {
     // publicPath: "/vite-vue3-vueuse-tailwindcss/",
-    publicDir: "./public",
+    // publicDir: "./public",
     /**
      * base
      * 如果是单点登录类似的项目
