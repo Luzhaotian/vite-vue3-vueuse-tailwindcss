@@ -45,8 +45,8 @@ export default defineConfig(root => {
       },
       // watch: isPreview ? {} : null,
       // 指定输出目录
-      outDir: "docs",
-      // 打包时清空 docs 文件夹
+      outDir: "dist",
+      // 打包时清空 dist 文件夹
       emptyOutDir: true,
       // 除了生产使用 sourcemap
       sourcemap: !(mode === "production"),
