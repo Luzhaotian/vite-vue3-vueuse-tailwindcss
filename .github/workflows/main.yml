@@ -34,8 +34,9 @@ jobs:
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          # GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # user_name: ${{ github.actor }}
           # user_email: lu199705@163.com
           # repo_name: ${{ github.repository }}
