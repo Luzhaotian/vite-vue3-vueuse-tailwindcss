@@ -47,3 +47,7 @@ npm run dev
 ```sh
 lu199705@163.com
 ```
+
+### 项目预览地址
+
+[项目预览地址](https://luzhaotian.github.io/vite-vue3-vueuse-tailwindcss/)
