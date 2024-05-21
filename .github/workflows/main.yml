@@ -35,7 +35,9 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          user_name: ${{ github.actor }}
+          repo_name: ${{ github.repository }}
           github_token: ${{ secrets.LZT_PAT }} # 此处修改为你的Secret名称
           publish_dir: ./dist
           full_commit_message: ${{ github.event.head_commit.message }}
