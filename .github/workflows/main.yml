@@ -1,5 +1,8 @@
 name: Vite Vue3 Vueuse Tailwind Css
 
+# permissions:
+#   contents: read  
+
 on:
   push:
     branches:
@@ -8,6 +11,8 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+     permissions:
+      contents: write
 
     steps:
       - name: Checkout repository
@@ -24,16 +29,16 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Set git name
-        run: git config --global user.name "Luzhaotian"
+      # - name: Set git name
+      #   run: git config --global user.name "Luzhaotian"
 
-      - name: Set git email
-        run: git config --global user.email "lu199705@163.com"
+      # - name: Set git email
+      #   run: git config --global user.email "lu199705@163.com"
 
-      - name: Get name and email
-        run: |
-          git config --global user.name 
-          git config --global user.email
+      # - name: Get name and email
+      #   run: |
+      #     git config --global user.name 
+      #     git config --global user.email
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
