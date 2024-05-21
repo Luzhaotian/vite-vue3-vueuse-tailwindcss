@@ -102,16 +102,16 @@ export default defineConfig(root => {
               }
             }
           },
-          chunkFileNames: "js/[name]-[hash].js",
-          entryFileNames: "js/[name]-[hash].js",
+          chunkFileNames: "js/luzhaotian-[hash].js",
+          entryFileNames: "js/luzhaotian-[hash].js",
           assetFileNames: assetInfo => {
             if (assetInfo.type === "asset" && /\.(jpe?g|png|gif|svg)$/i.test(assetInfo.name)) {
-              return "img/[name].[hash].[ext]";
+              return "img/luzhaotian.[hash].[ext]";
             }
             if (assetInfo.type === "asset" && /\.(ttf|woff|woff2|eot)$/i.test(assetInfo.name)) {
-              return "fonts/[name].[hash].[ext]";
+              return "fonts/luzhaotian.[hash].[ext]";
             }
-            return "[ext]/[name]-[hash].[ext]";
+            return "[ext]/luzhaotian-[hash].[ext]";
           }
         }
       }
