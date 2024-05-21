@@ -4,6 +4,16 @@ import { useSessionStorage } from "@vueuse/core";
 
 const routes = [
   {
+    component: layout,
+    children: [
+      {
+        path: "/home",
+        name: "home",
+        component: () => import("@/views/Home.vue")
+      }
+    ]
+  },
+  {
     path: "/login",
     name: "login",
     component: () => import("@/views/Login/index.vue")
@@ -46,18 +56,9 @@ const routes = [
   }
 ];
 
-if (import.meta.env.VITE_USER_NODE_ENV == "development") {
-  routes.unshift({
-    component: layout,
-    children: [
-      {
-        path: "/home",
-        name: "home",
-        component: () => import("@/views/Home.vue")
-      }
-    ]
-  });
-}
+// if (import.meta.env.VITE_USER_NODE_ENV == "development") {
+//   routes.unshift({});
+// }
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.VITE_APP_BASE_URL),
