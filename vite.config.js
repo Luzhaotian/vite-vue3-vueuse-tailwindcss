@@ -102,16 +102,16 @@ export default defineConfig(root => {
               }
             }
           },
-          chunkFileNames: "js/vite-vue3-vueuse-tailwindcss-[name]-[hash].js",
-          entryFileNames: "js/vite-vue3-vueuse-tailwindcss-[name]-[hash].js",
+          chunkFileNames: "js/[name]-[hash].js",
+          entryFileNames: "js/[name]-[hash].js",
           assetFileNames: assetInfo => {
             if (assetInfo.type === "asset" && /\.(jpe?g|png|gif|svg)$/i.test(assetInfo.name)) {
-              return "img/vite-vue3-vueuse-tailwindcss-[name].[hash].[ext]";
+              return "img/[name].[hash].[ext]";
             }
             if (assetInfo.type === "asset" && /\.(ttf|woff|woff2|eot)$/i.test(assetInfo.name)) {
-              return "fonts/vite-vue3-vueuse-tailwindcss-[name].[hash].[ext]";
+              return "fonts/[name].[hash].[ext]";
             }
-            return "[ext]/vite-vue3-vueuse-tailwindcss-[name]-[hash].[ext]";
+            return "[ext]/[name]-[hash].[ext]";
           }
         }
       }
