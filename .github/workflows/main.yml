@@ -40,7 +40,7 @@ jobs:
           # user_email: lu199705@163.com
           # repo_name: ${{ github.repository }}
           # user_email: ${{ github.actor }}@users.noreply.github.com
-          # github_token: ${{ secrets.LZT_PAT }} # 此处修改为你的Secret名称
-          github_token: ${{ github.token }}
+          github_token: ${{ secrets.LZT_PAT }} # 此处修改为你的Secret名称
+          # github_token: ${{ github.token }}
           publish_dir: ./dist
           full_commit_message: ${{ github.event.head_commit.message }}
