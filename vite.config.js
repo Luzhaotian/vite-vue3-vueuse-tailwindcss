@@ -16,8 +16,6 @@ export default defineConfig(root => {
   const isDevelopment = mode === "development";
   const isProd = mode === "production";
   return {
-    // publicPath: "/vite-vue3-vueuse-tailwindcss/",
-    // publicDir: "./public",
     /**
      * base
      * 如果是单点登录类似的项目
@@ -26,7 +24,7 @@ export default defineConfig(root => {
      * 当前应用是 主应用 '/'
      */
     // base: "/",
-    base: isDevelopment ? "/" : "/vite-vue3-vueuse-tailwindcss/",
+    base: isDevelopment ? "/" : viteEnv.VITE_APP_BASE_URL,
     css: {
       preprocessorOptions: {
         scss: {
