@@ -26,7 +26,7 @@ export default defineConfig(root => {
      * 当前应用是 主应用 '/'
      */
     // base: "/",
-    base: "/vite-vue3-vueuse-tailwindcss/",
+    base: isDevelopment ? "/" : "/vite-vue3-vueuse-tailwindcss/",
     css: {
       preprocessorOptions: {
         scss: {
