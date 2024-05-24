@@ -33,12 +33,12 @@ export default defineConfig(root => {
       }
     },
     build: {
-      minify: "terser",
+      minify: isProd ? "terser" : false,
       terserOptions: {
         compress: {
           //生产环境时移除console.log(), console.info, console.warn, console.error, 或者直接赋值true移除一切console.*的代码
-          drop_console: true,
-          drop_debugger: true
+          drop_console: isProd,
+          drop_debugger: isProd
         }
       },
       // watch: isPreview ? {} : null,
