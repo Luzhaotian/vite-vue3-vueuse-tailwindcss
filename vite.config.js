@@ -15,6 +15,8 @@ export default defineConfig(root => {
   const viteEnv = loadEnv(mode, process.cwd());
   const isDevelopment = mode === "development";
   const isProd = mode === "production";
+  // 获取当前环境的资源访问路径
+  const basePublicPath = viteEnv.VITE_APP_BASE_URL;
   return {
     /**
      * base
@@ -24,7 +26,7 @@ export default defineConfig(root => {
      * 当前应用是 主应用 '/'
      */
     // base: "/",
-    base: isDevelopment ? "/" : viteEnv.VITE_APP_BASE_URL,
+    base: isDevelopment ? "/" : basePublicPath,
     css: {
       preprocessorOptions: {
         scss: {
