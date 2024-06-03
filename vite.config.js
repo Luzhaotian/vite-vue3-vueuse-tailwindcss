@@ -35,22 +35,22 @@ export default defineConfig(root => {
       }
     },
     build: {
-      // minify: isProd ? "terser" : false,
-      // terserOptions: {
-      //   compress: {
-      //     //生产环境时移除console.log(), console.info, console.warn, console.error, 或者直接赋值true移除一切console.*的代码
-      //     drop_console: isProd,
-      //     drop_debugger: isProd
-      //   }
-      // },
-      minify: false,
+      minify: isProd ? "terser" : false,
       terserOptions: {
         compress: {
           //生产环境时移除console.log(), console.info, console.warn, console.error, 或者直接赋值true移除一切console.*的代码
-          drop_console: false,
-          drop_debugger: false
+          drop_console: isProd,
+          drop_debugger: isProd
         }
       },
+      // minify: false,
+      // terserOptions: {
+      //   compress: {
+      //     //生产环境时移除console.log(), console.info, console.warn, console.error, 或者直接赋值true移除一切console.*的代码
+      //     drop_console: false,
+      //     drop_debugger: false
+      //   }
+      // },
       // watch: isPreview ? {} : null,
       // 指定输出目录
       outDir: "dist",
