@@ -265,7 +265,7 @@ const leave = (el, done) => {
 
 .slide-fade-enter-from,
 .slide-fade-leave-to {
-  transform: translateX(120px) scale(0.5);
+  transform: translateX(120px);
   opacity: 0;
 }
 </style>
