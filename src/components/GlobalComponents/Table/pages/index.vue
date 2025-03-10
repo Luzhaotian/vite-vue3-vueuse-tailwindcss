@@ -13,7 +13,7 @@ import { tryOnMounted } from "@vueuse/core";
 const props = defineProps({
   downloadObject: {
     type: Object,
-    default: () => ({}),
+    default: () => ({})
   },
   isDownload: {
     type: Boolean,
@@ -35,7 +35,7 @@ const props = defineProps({
       currentPage: 1,
       pageSize: 10,
       pageSizes: [10, 20, 30, 50, 100],
-      layout: 'total, sizes, prev, pager, next, jumper',
+      layout: "total, sizes, prev, pager, next, jumper",
       total: 0
     })
   },
@@ -49,7 +49,7 @@ const props = defineProps({
   }
 });
 
-const emits = defineEmits(['on-pagination-change']);
+const emits = defineEmits(["on-pagination-change"]);
 const loadingStore = useLoadingStore();
 
 const myTableData = ref([]);
@@ -59,12 +59,17 @@ const downloadLoading = ref(false);
 
 // 使用computed代替watch来处理tableData
 const tableDataComputed = computed(() => props.tableData);
-watch(tableDataComputed, (val) => {
-  myTableData.value = val;
-}, { immediate: true });
+watch(
+  tableDataComputed,
+  val => {
+    myTableData.value = val;
+  },
+  { immediate: true }
+);
 
 // 优化分页参数监听
-watch(() => [props.tablePaginationArg?.currentPage, props.tablePaginationArg?.pageSize], 
+watch(
+  () => [props.tablePaginationArg?.currentPage, props.tablePaginationArg?.pageSize],
   ([newCurrentPage, newPageSize]) => {
     if (newCurrentPage !== undefined) currentPage.value = newCurrentPage;
     if (newPageSize !== undefined) pageSize.value = newPageSize;
@@ -75,33 +80,34 @@ watch(() => [props.tablePaginationArg?.currentPage, props.tablePaginationArg?.pa
 const myTableColumn = computed(() => props.tableColumn);
 
 // 优化列宽计算函数
-const calculateColumnWidth = (char) => {
+const calculateColumnWidth = char => {
   if ((char >= "A" && char <= "Z") || (char >= "a" && char <= "z")) return 8;
   if (char >= "\u4e00" && char <= "\u9fa5") return 14;
   if (char === " ") return 14;
   return 14;
 };
 
-const setColumnWidth = (column) => {
+const setColumnWidth = column => {
   const { label, sortable } = column;
   const sortableWidth = sortable === undefined ? 24 : 0;
   const baseWidth = 20 + sortableWidth;
-  
-  const calculatedWidth = label.split('')
+
+  const calculatedWidth = label
+    .split("")
     .reduce((width, char) => width + calculateColumnWidth(char), baseWidth);
-    
+
   return `${Math.max(calculatedWidth, 100)}px`;
 };
 
 const sortBy = (row, index, prop) => {
-  if (!prop || row[prop] === null) return '';
+  if (!prop || row[prop] === null) return "";
   return row[prop] ?? -1;
 };
 
 const downloadClick = async () => {
   const { url, data, method } = props.downloadObject ?? {};
   if (!url) return;
-  
+
   downloadLoading.value = true;
   try {
     await downloadFile(url, { data, method });
@@ -110,12 +116,12 @@ const downloadClick = async () => {
   }
 };
 
-const handleSizeChange = (size) => {
+const handleSizeChange = size => {
   pageSize.value = size;
   emits("on-pagination-change", { label: "pageSize", value: size });
 };
 
-const handleCurrentChange = (page) => {
+const handleCurrentChange = page => {
   currentPage.value = page;
   emits("on-pagination-change", { label: "pageNo", value: page });
 };
@@ -133,22 +139,12 @@ tryOnMounted(() => {});
       :stripe="stripe"
       style="width: 100%"
     >
-      <template 
-        v-for="(value, key) in $slots" 
-        :key="key" 
-        #[key]="scope"
-      >
+      <template v-for="(value, key) in $slots" :key="key" #[key]="scope">
         <slot :name="key" v-bind="scope" />
       </template>
 
-      <template 
-        v-for="(column, index) in myTableColumn" 
-        :key="`col_${index}`"
-      >
-        <el-table-column
-          v-if="column.type === 'selection'"
-          type="selection"
-        />
+      <template v-for="(column, index) in myTableColumn" :key="`col_${index}`">
+        <el-table-column v-if="column.type === 'selection'" type="selection" />
         <el-table-column
           v-else
           :class-name="column.className"
@@ -160,17 +156,14 @@ tryOnMounted(() => {});
           :formatter="column.formatter"
           :fixed="column.fixed"
           :sort-method="column.sortMethod"
-          :sort-by="column.sortMethod ? undefined : column.sortBy || ((row, index) => sortBy(row, index, column.prop))"
+          :sort-by="
+            column.sortMethod
+              ? undefined
+              : column.sortBy || ((row, index) => sortBy(row, index, column.prop))
+          "
         >
-          <template 
-            v-if="column.slot" 
-            #default="scoped"
-          >
-            <slot 
-              :name="column.slot" 
-              :tableSlotColum="column" 
-              :tableRow="scoped.row" 
-            />
+          <template v-if="column.slot" #default="scoped">
+            <slot :name="column.slot" :tableSlotColum="column" :tableRow="scoped.row" />
           </template>
         </el-table-column>
       </template>
