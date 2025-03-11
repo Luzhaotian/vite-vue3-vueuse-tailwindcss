@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Redirecting...</title>
     <script>
-      const appPath = '/vite-vue3-vueuse-tailwindcss/';
-      const fullPath = window.location.pathname.replace(appPath, '') + window.location.search;
-      sessionStorage.setItem('redirect', fullPath);
-      window.location.replace(window.location.origin + appPath);
+      const basePath = '/vite-vue3-vueuse-tailwindcss/';
+      const fullPath = window.location.pathname + window.location.search + window.location.hash;
+      sessionStorage.setItem('redirect', fullPath.replace(basePath, '/'));
+      window.location.replace(window.location.origin + basePath);
     </script>
   </head>
   <body>
