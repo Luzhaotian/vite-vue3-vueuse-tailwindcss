@@ -10,27 +10,33 @@ import { downloadFile } from "@/libs/downloadFile";
 import { useLoadingStore } from "@/stores/loading.js";
 import { tryOnMounted } from "@vueuse/core";
 
+/**
+ * 组件属性定义
+ * @typedef {Object} Props
+ * @property {Object} [downloadObject] - 下载配置对象
+ * @property {boolean} [isDownload=true] - 是否显示下载按钮
+ * @property {Array} tableColumn - 表格列配置
+ * @property {Array} tableData - 表格数据
+ * @property {Object} [tablePaginationArg] - 分页参数配置
+ * @property {boolean} [stripe=false] - 是否显示斑马纹
+ * @property {boolean} [isPaginationBox=false] - 是否显示分页容器
+ */
 const props = defineProps({
   downloadObject: {
-    type: Object,
     default: () => ({})
   },
   isDownload: {
-    type: Boolean,
     default: true
   },
   tableColumn: {
-    type: Array,
     required: true,
     default: () => []
   },
   tableData: {
-    type: Array,
     required: true,
     default: () => []
   },
   tablePaginationArg: {
-    type: Object,
     default: () => ({
       currentPage: 1,
       pageSize: 10,
@@ -40,18 +46,21 @@ const props = defineProps({
     })
   },
   stripe: {
-    type: Boolean,
     default: false
   },
   isPaginationBox: {
-    type: Boolean,
     default: false
   }
 });
 
+/**
+ * 定义组件事件
+ * @typedef {(event: 'on-pagination-change', payload: {label: string, value: any}) => void} Emits
+ */
 const emits = defineEmits(["on-pagination-change"]);
 const loadingStore = useLoadingStore();
 
+// 优化响应式声明方式
 const myTableData = ref([]);
 const currentPage = ref(props.tablePaginationArg?.currentPage ?? 1);
 const pageSize = ref(props.tablePaginationArg?.pageSize ?? 10);

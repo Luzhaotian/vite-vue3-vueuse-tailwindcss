@@ -82,14 +82,12 @@ const span = 6;
  */
 const onSubmit = async formEl => {
   if (!formEl) return;
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      // console.log("submit!");
-      emits("on-search", formInline);
-    } else {
-      console.log("error submit!", fields);
-    }
-  });
+  const valid = await formEl.validate();
+  if (valid) {
+    emits("on-search", formInline);
+  } else {
+    console.log("error submit!");
+  }
 };
 
 /**
@@ -119,7 +117,7 @@ const onReset = formEl => {
       :rules="rules"
     >
       <el-row :gutter="gutter">
-        <template v-for="(item, index) in searchList" :key="index">
+        <template v-for="item in searchList" :key="item.value">
           <el-col :span="span">
             <el-form-item
               :label="item.label"

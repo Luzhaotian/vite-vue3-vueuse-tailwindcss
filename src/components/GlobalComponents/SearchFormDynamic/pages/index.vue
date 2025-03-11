@@ -14,6 +14,15 @@ defineOptions({
 
 const formSearchRef = ref();
 
+/**
+ * 组件属性定义
+ * @property {Object} form - 表单数据对象
+ * @property {Array} searchList - 搜索表单项配置数组
+ * @property {Boolean} isActions - 是否显示操作按钮
+ * @property {Boolean} isResetBtn - 是否显示重置按钮
+ * @property {Object} rulesForm - 表单验证规则
+ * @property {String|Number} formLabelWidth - 标签宽度
+ */
 const props = defineProps({
   /**
    * 绑定对象
@@ -44,13 +53,6 @@ const props = defineProps({
     default: true
   },
   /**
-   * 搜索按钮 loading 结合列表 loading 使用
-   */
-  // searchLoading: {
-  //   type: Boolean,
-  //   default: false
-  // },
-  /**
    * 搜索表单规则
    */
   rulesForm: {
@@ -63,6 +65,11 @@ const props = defineProps({
   formLabelWidth: [String, Number]
 });
 
+/**
+ * 组件事件定义
+ * @emits on-search - 搜索事件
+ * @emits on-reset - 重置事件
+ */
 const emits = defineEmits(["on-search", "on-reset"]);
 
 const rulesForm = props?.rulesForm ?? {};
@@ -80,16 +87,19 @@ const span = 6;
 /**
  * 查询
  */
+/**
+ * 处理表单提交
+ * @param {Object} formEl - 表单元素引用
+ * @async
+ */
 const onSubmit = async formEl => {
   if (!formEl) return;
-  await formEl.validate((valid, fields) => {
-    if (valid) {
-      // console.log("submit!");
-      emits("on-search", formInline);
-    } else {
-      console.log("error submit!", fields);
-    }
-  });
+  const valid = await formEl.validate();
+  if (valid) {
+    emits("on-search", formInline);
+  } else {
+    console.warn("表单验证未通过");
+  }
 };
 
 /**
@@ -119,7 +129,7 @@ const onReset = formEl => {
       :rules="rules"
     >
       <el-row :gutter="gutter">
-        <template v-for="(item, index) in searchList" :key="index">
+        <template v-for="(item, index) in searchList" :key="item.modelName || index">
           <el-col :span="span">
             <el-form-item
               v-bind="item.formItemProps"

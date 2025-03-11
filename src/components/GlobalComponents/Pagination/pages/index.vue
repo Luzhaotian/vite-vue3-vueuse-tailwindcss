@@ -1,30 +1,35 @@
 <script setup>
-// import { computed } from "vue";
-// defineOptions({
-//   name: "Pagination"
-// });
-// const emit = defineEmits(["update:page", "update:size"]);
-// const prop = defineProps({
-//   page: Number,
-//   size: Number
-// });
+/**
+ * 分页组件 - 支持双向绑定的分页控制器
+ */
+defineOptions({
+  name: "Pagination"
+});
 
-// const currentPage = computed({
-//   get: () => prop.page,
-//   set: val => emit("update:page", val)
-// });
+/**
+ * 当前页码
+ * @type {import('vue').WritableComputedRef<number>}
+ */
+const currentPage = defineModel("page", {
+  type: Number,
+  default: 1,
+  validator: v => v >= 1
+});
 
-// const pageSize = computed({
-//   get: () => prop.size,
-//   set: val => emit("update:size", val)
-// });
-const currentPage = defineModel("page");
-const pageSize = defineModel("size");
+/**
+ * 每页显示条数
+ * @type {import('vue').WritableComputedRef<number>}
+ */
+const pageSize = defineModel("size", {
+  type: Number,
+  default: 10,
+  validator: v => v >= 1
+});
 </script>
 <template>
   <el-pagination
     v-bind="$props"
-    v-model:currentPage="currentPage"
+    v-model:current-page="currentPage"
     v-model:page-size="pageSize"
     small
   />

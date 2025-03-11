@@ -9,23 +9,39 @@ const service = axios.create({
 
 // 请求拦截器
 service.interceptors.request.use(
-  config => {
-    // 下载接口的 loading 单独处理
+  /**
+   * @typedef {import('axios').AxiosRequestConfig} AxiosRequestConfig
+   * @param {AxiosRequestConfig} config
+   * @returns {Promise<AxiosRequestConfig>}
+   */
+  async config => {
+    // 特殊响应类型处理（如blob类型不触发全局loading）
     const specialType = ["blob"];
-
-    // 获取 loading 状态
     const loadingStore = useLoadingStore();
 
-    // 如果是下载 loading 不打开
-    if (!specialType.includes(config.responseType)) {
-      loadingStore.openLoading();
+    try {
+      // 添加认证Token
+      const token = localStorage.getItem("auth_token");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+
+      // 非下载类型请求开启loading
+      if (!specialType.includes(config.responseType)) {
+        await loadingStore.openLoading();
+      }
+
+      // 标准化请求头
+      config.headers = {
+        "Content-Type": "application/json",
+        ...config.headers
+      };
+
+      return config;
+    } catch (error) {
+      await loadingStore.closeLoading();
+      return Promise.reject(error);
     }
-    /**
-     * 配置请求拦截器
-     * 一般是请求头增加 Token 等
-     * 。。。
-     */
-    return config;
   },
   error => {
     // 获取 loading 状态
@@ -38,34 +54,59 @@ service.interceptors.request.use(
 
 // 响应拦截器
 service.interceptors.response.use(
-  response => {
-    const res = response.data;
-    // 获取 loading 状态
+  /**
+   * @typedef {import('axios').AxiosResponse} AxiosResponse
+   * @param {AxiosResponse} response
+   * @returns {Promise<any>}
+   */
+  async response => {
     const loadingStore = useLoadingStore();
+    try {
+      // 统一响应数据结构
+      const { data, status } = response;
+      await loadingStore.closeLoading();
 
-    // 关闭 loading
-    loadingStore.closeLoading();
+      // 处理业务错误（假设code非0为业务错误）
+      if (data?.code && data.code !== 0) {
+        ElMessage({
+          message: data.message || "业务处理异常",
+          type: "warning",
+          duration: 3000
+        });
+        return Promise.reject(data);
+      }
 
-    // const process = import.meta.env;
-    /**
-     * 配置相应数据拦截
-     * 一般是根据状态吗做相应的事情
-     * 。。。
-     */
-    return res;
+      return data?.data ?? data; // 返回核心业务数据
+    } catch (error) {
+      await loadingStore.closeLoading();
+      return Promise.reject(error);
+    }
   },
-  error => {
+  /**
+   * @param {import('axios').AxiosError} error
+   */
+  async error => {
+    const loadingStore = useLoadingStore();
+    await loadingStore.closeLoading();
+
+    // 错误分类处理
+    const errorMessage = error.response
+      ? `[${error.response.status}] ${error.response.data?.message || "服务异常"}`
+      : error.message || "网络连接失败";
+
     ElMessage({
-      message: error,
+      message: errorMessage,
       type: "error",
-      duration: 5 * 1000,
+      duration: 5000,
       showClose: true
     });
-    // 获取 loading 状态
-    const loadingStore = useLoadingStore();
-    // 关闭 loading
-    loadingStore.closeLoading();
-    // 全局更新loading状态
+
+    // 认证失败处理
+    if (error.response?.status === 401) {
+      localStorage.removeItem("auth_token");
+      window.location.href = "/login";
+    }
+
     return Promise.reject(error);
   }
 );

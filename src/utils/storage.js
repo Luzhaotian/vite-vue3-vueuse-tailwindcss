@@ -1,74 +1,102 @@
-// import { useSessionStorage } from "@vueuse/core";
-
-// const userInfo = "USER_INFO";
 /**
- * 删除本地缓存
- * @param {String} name
+ * 通用存储处理器
+ * @template T
+ * @param {'session' | 'local'} type - 存储类型
+ * @returns {{
+ *   getItem: (name: string) => T | null,
+ *   setItem: (name: string, object: T) => void,
+ *   removeItem: (name: string) => void,
+ *   exists: (name: string) => boolean,
+ *   clear: () => void
+ * }}
  */
-export const sessionStorageRemoveItem = name => sessionStorage.removeItem(name);
+const createStorage = type => {
+  const storage = type === "session" ? sessionStorage : localStorage;
 
-/**
- * 本地缓存
- * @param {String} name
- * @param {any} object
- */
-export const sessionStorageSetItem = (name, object) => {
-  sessionStorageRemoveItem(name);
-  sessionStorage.setItem(name, JSON.stringify(object));
+  return {
+    /**
+     * 获取存储项
+     * @param {string} name
+     * @returns {T | null}
+     */
+    getItem(name) {
+      try {
+        const item = storage.getItem(name);
+        return item ? JSON.parse(item) : null;
+      } catch (error) {
+        console.error(`[${type}Storage] 解析失败:`, error);
+        return null;
+      }
+    },
+
+    /**
+     * 设置存储项
+     * @param {string} name
+     * @param {T} object
+     */
+    setItem(name, object) {
+      try {
+        storage.setItem(name, JSON.stringify(object));
+      } catch (error) {
+        console.error(`[${type}Storage] 存储失败:`, error);
+      }
+    },
+
+    /**
+     * 移除存储项
+     * @param {string} name
+     */
+    removeItem(name) {
+      storage.removeItem(name);
+    },
+
+    /**
+     * 检查存储项是否存在
+     * @param {string} name
+     * @returns {boolean}
+     */
+    exists(name) {
+      return storage.getItem(name) !== null;
+    },
+
+    /**
+     * 清空存储
+     */
+    clear() {
+      storage.clear();
+    }
+  };
 };
 
-/**
- * 获取本地缓存
- * @param {String} name
- * @returns any
- */
-export const sessionStorageGetItem = name => JSON.parse(sessionStorage.getItem(name));
+// SessionStorage 实例
+const sessionStorageHandler = createStorage("session");
+// LocalStorage 实例
+const localStorageHandler = createStorage("local");
 
 /**
- * 判断本地缓存是否有
- * @param {String} name
- * @returns Boolean
+ * 删除sessionStorage项
+ * @param {string} name
  */
-export const isSessionStorageGetItem = name => !(sessionStorageGetItem(name) === null);
+export const sessionStorageRemoveItem = name => sessionStorageHandler.removeItem(name);
+
+export const sessionStorageSetItem = (name, object) => sessionStorageHandler.setItem(name, object);
+
+export const sessionStorageGetItem = name => sessionStorageHandler.getItem(name);
+
+export const isSessionStorageGetItem = name => sessionStorageHandler.exists(name);
+
+export const sessionStorageClear = () => sessionStorageHandler.clear();
 
 /**
- * 清空本地缓存
- * @returns
+ * 删除localStorage项
+ * @param {string} name
  */
-export const sessionStorageClear = () => sessionStorage.clear();
+export const localStorageRemoveItem = name => localStorageHandler.removeItem(name);
 
-/**
- * 删除本地缓存
- * @param {String} name
- */
-export const localStorageRemoveItem = name => localStorage.removeItem(name);
+export const localStorageSetItem = (name, object) => localStorageHandler.setItem(name, object);
 
-/**
- * 本地缓存
- * @param {String} name
- * @param {any} object
- */
-export const localStorageSetItem = (name, object) => {
-  localStorageRemoveItem(name);
-  localStorage.setItem(name, JSON.stringify(object));
-};
+export const localStorageGetItem = name => localStorageHandler.getItem(name);
 
-/**
- * 获取本地缓存
- * @param {String} name
- * @returns any
- */
-export const localStorageGetItem = name => JSON.parse(localStorage.getItem(name));
+export const isLocalStorageGetItem = name => localStorageHandler.exists(name);
 
-/**
- * 判断本地缓存是否有
- * @param {String} name
- * @returns Boolean
- */
-export const isLocalStorageGetItem = name => !(localStorageGetItem(name) === null);
-
-/**
- * 清空本地缓存
- * @returns
- */
-export const localStorageClear = () => localStorage.clear();
+export const localStorageClear = () => localStorageHandler.clear();
