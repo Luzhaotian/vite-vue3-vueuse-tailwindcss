@@ -29,7 +29,7 @@ const routes = [
     component: () => import("@/views/500.vue")
   },
   {
-    path: "/:pathMath(.*)*", // 动态路由 配置
+    path: "/:pathMatch(.*)*", // 动态路由 配置
     component: () => import("@/views/404.vue")
   },
   {
