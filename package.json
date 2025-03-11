@@ -8,7 +8,7 @@
     "dev": "vite build --mode=devd",
     "test": "vite build --mode=test",
     "build": "vite build --mode=production",
-    "preview": "vite preview --host --mode=devd --open",
+    "preview": "vite preview --host --mode=preview --open",
     "lint:prettier": "prettier --write  \"src/**/*.{js,ts,json,tsx,css,less,scss,vue,html,md}\"",
     "lint:eslint": "eslint \"{src,mock,build}/**/*.{vue,js,ts,tsx}\" --fix"
   },

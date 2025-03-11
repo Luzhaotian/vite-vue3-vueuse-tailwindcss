@@ -17,6 +17,15 @@ export default defineConfig(root => {
   const isProd = mode === "production";
   // 获取当前环境的资源访问路径
   const basePublicPath = viteEnv.VITE_APP_BASE_URL;
+
+  console.log("viteEnv", viteEnv);
+  console.log("isDevelopment", isDevelopment);
+  console.log("isProd", isProd);
+  console.log("basePublicPath", basePublicPath);
+  console.log("command", command);
+  console.log("mode", mode);
+  console.log("isPreview", isPreview);
+
   return {
     /**
      * base
@@ -110,16 +119,16 @@ export default defineConfig(root => {
               }
             }
           },
-          chunkFileNames: "js/luzhaotian-[hash].js",
-          entryFileNames: "js/luzhaotian-[hash].js",
+          chunkFileNames: "js/lzt-[hash].js",
+          entryFileNames: "js/lzt-[hash].js",
           assetFileNames: assetInfo => {
             if (assetInfo.type === "asset" && /\.(jpe?g|png|gif|svg)$/i.test(assetInfo.name)) {
-              return "img/luzhaotian.[hash].[ext]";
+              return "img/lzt.[hash].[ext]";
             }
             if (assetInfo.type === "asset" && /\.(ttf|woff|woff2|eot)$/i.test(assetInfo.name)) {
-              return "fonts/luzhaotian.[hash].[ext]";
+              return "fonts/lzt.[hash].[ext]";
             }
-            return "[ext]/luzhaotian-[hash].[ext]";
+            return "[ext]/lzt-[hash].[ext]";
           }
         }
       }
@@ -158,15 +167,10 @@ export default defineConfig(root => {
       cors: true,
       force: true,
       proxy: {
-        [`${viteEnv.VITE_APP_BASE_API}`]: {
-          target: viteEnv.VITE_APP_BASE_HTTP,
+        "/api": {
+          target: `${viteEnv.VITE_APP_BASE_HTTP}`,
           changeOrigin: true,
-          rewrite: path => {
-            // console.log(path, "path");
-            return path.replace(/^\/dev-api/, "");
-          },
-          logLevel: "debug",
-          secure: false
+          rewrite: path => path.replace(/^\/api/, "")
         }
       }
     }
