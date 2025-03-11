@@ -23,20 +23,25 @@ import { tryOnMounted } from "@vueuse/core";
  */
 const props = defineProps({
   downloadObject: {
+    type: Object,
     default: () => ({})
   },
   isDownload: {
+    type: Boolean,
     default: true
   },
   tableColumn: {
+    type: Array,
     required: true,
     default: () => []
   },
   tableData: {
+    type: Array,
     required: true,
     default: () => []
   },
   tablePaginationArg: {
+    type: Object,
     default: () => ({
       currentPage: 1,
       pageSize: 10,
@@ -46,9 +51,11 @@ const props = defineProps({
     })
   },
   stripe: {
+    type: Boolean,
     default: false
   },
   isPaginationBox: {
+    type: Boolean,
     default: false
   }
 });
