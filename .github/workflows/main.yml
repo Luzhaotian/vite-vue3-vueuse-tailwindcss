@@ -8,7 +8,7 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     env:
-      REPO_LOWER: /luzhaotian/vite-vue3-vueuse-tailwindcss
+      REPO_LOWER: luzhaotian/vite-vue3-vueuse-tailwindcss
     permissions:
       contents: read
       packages: write
