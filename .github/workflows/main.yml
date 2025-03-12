@@ -8,7 +8,7 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     env:
-      REPO_LOWER: ${{ toLower(format('{0}', github.repository)) }}
+      REPO_LOWER: ${{ format('{0}', github.repository) }}
     permissions:
       contents: read
       packages: write
