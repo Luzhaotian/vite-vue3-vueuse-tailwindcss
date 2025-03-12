@@ -35,8 +35,8 @@ export default defineConfig(root => {
      * 当前应用是 主应用 '/'
      */
     // base: "/",
-    // base: isDevelopment ? "/" : basePublicPath,
-    base: basePublicPath,
+    base: isDevelopment ? "/" : basePublicPath,
+    // base: basePublicPath,
     css: {
       preprocessorOptions: {
         scss: {
@@ -63,7 +63,8 @@ export default defineConfig(root => {
       // },
       // watch: isPreview ? {} : null,
       // 指定输出目录
-      outDir: "dist",
+      // outDir: "dist",
+      outDir: "vite-vue3-vueuse-tailwindcss",
       // 打包时清空 dist 文件夹
       emptyOutDir: true,
       // 除了生产使用 sourcemap
