@@ -7,7 +7,8 @@
     <script>
       const basePath = '/vite-vue3-vueuse-tailwindcss/';
       const fullPath = window.location.pathname + window.location.search + window.location.hash;
-      sessionStorage.setItem('redirect', fullPath.replace(basePath, '/'));
+      if (!fullPath.startsWith(basePath)) return;
+      sessionStorage.setItem('redirect', fullPath.replace(basePath, ''));
       window.location.replace(window.location.origin + basePath);
     </script>
   </head>
