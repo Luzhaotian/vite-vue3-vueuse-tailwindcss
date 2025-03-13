@@ -37,8 +37,8 @@ jobs:
           cache: "npm"
       - name: Install dependencies
         run: npm ci
-      # - name: Build
-      #   run: npm run build
+      - name: Build
+        run: npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
