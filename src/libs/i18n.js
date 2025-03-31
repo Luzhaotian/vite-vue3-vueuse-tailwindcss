@@ -3,7 +3,6 @@ import { getLang } from "@/libs/common.js";
 import en from "@/assets/js/en";
 import zh from "@/assets/js/zh-cn";
 
-const test = "123";
 const i18n = createI18n({
   locale: getLang(),
   messages: {
