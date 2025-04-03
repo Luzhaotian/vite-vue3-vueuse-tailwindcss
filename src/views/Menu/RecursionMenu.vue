@@ -18,7 +18,8 @@
 </template>
 
 <script setup>
-import i18n from "@/libs/i18n.js";
+// import i18n from "@/libs/i18n.js";
+import i18n from "@/locales";
 import { computed } from "vue";
 import { useRouter } from "vue-router";
 

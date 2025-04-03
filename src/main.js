@@ -20,7 +20,8 @@ import "@/utils/browser_patch";
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import ElementPlus from "element-plus";
-import i18n from "@/libs/i18n.js";
+// import i18n from "@/libs/i18n.js";
+import i18n from "@/locales";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import en from "element-plus/dist/locale/en.mjs";
 

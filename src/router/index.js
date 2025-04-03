@@ -69,7 +69,7 @@ router.beforeEach((to, from, next) => {
   const userInfo = useSessionStorage("USER_INFO");
   const whiteList = ["login"];
 
-  console.log(to.name, "router");
+  // console.log(to.name, "router");
 
   if (to.name && whiteList.includes(to.name)) {
     if (router.hasRoute(to.name)) {

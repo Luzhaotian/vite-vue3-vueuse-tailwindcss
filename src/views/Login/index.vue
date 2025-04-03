@@ -1,10 +1,12 @@
 <script setup>
-import { ref, getCurrentInstance, nextTick, onMounted } from "vue";
+import { ref, getCurrentInstance, nextTick, onMounted, watch } from "vue";
 import { getLang } from "@/libs/common.js";
 import { ElMessage } from "element-plus";
 import { useSessionStorage } from "@vueuse/core";
 import { useLoadingStore } from "@/stores/loading.js";
-import i18n from "@/libs/i18n.js";
+// import i18n from "@/libs/i18n.js";
+import i18n from "@/locales";
+import { localStorageSetItem, languageObject, localStorageGetItem } from "@/utils/storage.js";
 
 defineOptions({
   name: "Login"
@@ -12,7 +14,9 @@ defineOptions({
 
 const username = ref("");
 const password = ref("");
-const language = ref("");
+// const language = ref("");
+
+const selectedLang = ref(localStorageGetItem(languageObject.USER_LOCALE) ?? "zh-CN");
 
 // const isLoading = ref(false);
 const loadingStore = useLoadingStore();
@@ -24,14 +28,11 @@ const langChange = l => {
   i18n.global.locale = l;
 };
 
-const init = () => {
-  const radio = document.querySelectorAll('input[type="radio"]');
-  radio.forEach(item => {
-    item.addEventListener("change", value => {
-      langChange(value.target.value);
-    });
-  });
-};
+watch(selectedLang, n => {
+  // console.log(n);
+  localStorageSetItem(languageObject.USER_LOCALE, n);
+  langChange(n);
+});
 
 const login = () => {
   // isLoading.value = true;
@@ -58,18 +59,18 @@ const login = () => {
       // language.value = getLang();
 
       const lang = document.querySelector('input[type="radio"]:checked');
-      language.value = lang.value;
+      // language.value = selectedLang.value;
       useSessionStorage("USER_INFO", {
         username: username.value,
-        password: password.value,
-        language: language.value
+        password: password.value
+        // language: language.value
       });
 
       // if (import.meta.env.VITE_USER_NODE_ENV === "development") {
       proxy.$router.push({
         name: "home",
         query: {
-          lang: language.value ?? getLang(),
+          lang: selectedLang.value ?? getLang(),
           t: new Date().getTime()
         }
       });
@@ -83,7 +84,7 @@ const login = () => {
 };
 
 onMounted(() => {
-  init();
+  // init();
 });
 </script>
 
@@ -133,14 +134,32 @@ onMounted(() => {
               class="text-indigo-600 flex-cc w-1/2 has-[:checked]:bg-indigo-600 has-[:checked]:text-white cursor-pointer"
             >
               <span>中文</span>
-              <input type="radio" name="lang" value="CN" id="zh" class="mr-2" checked hidden />
+              <input
+                type="radio"
+                name="lang"
+                value="zh-CN"
+                id="zh"
+                class="mr-2"
+                :value="'zh-CN'"
+                v-model="selectedLang"
+                hidden
+              />
             </label>
             <label
               for="en"
               class="text-indigo-600 flex-cc w-1/2 has-[:checked]:bg-indigo-600 has-[:checked]:text-white cursor-pointer"
             >
               <span>English</span>
-              <input type="radio" name="lang" value="EN" id="en" class="mr-2" hidden />
+              <input
+                type="radio"
+                name="lang"
+                value="en-US"
+                id="en"
+                class="mr-2"
+                :value="'en-US'"
+                v-model="selectedLang"
+                hidden
+              />
             </label>
           </div>
         </div>

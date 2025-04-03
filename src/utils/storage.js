@@ -102,5 +102,5 @@ export const isLocalStorageGetItem = name => localStorageHandler.exists(name);
 export const localStorageClear = () => localStorageHandler.clear();
 
 export const languageObject = {
-  USER_LOCALE: "language"
+  USER_LOCALE: "languageName"
 };

@@ -2,7 +2,8 @@
 import { computed, onErrorCaptured, nextTick } from "vue";
 import { ElConfigProvider } from "element-plus";
 import { useColorMode, tryOnMounted } from "@vueuse/core";
-import i18n from "@/libs/i18n.js";
+// import i18n from "@/libs/i18n.js";
+import i18n from "@/locales";
 import zhCn from "element-plus/dist/locale/zh-cn.mjs";
 import en from "element-plus/dist/locale/en.mjs";
 
@@ -11,7 +12,8 @@ const mode = useColorMode(); // Ref<'dark' | 'light'>
 const locale = i18n.global.locale;
 
 const lang = computed(() => {
-  return locale === "CN" ? zhCn : en;
+  const primaryLang = i18n.global.locale;
+  return primaryLang === "zh-CN" ? zhCn : en;
 });
 
 /**
