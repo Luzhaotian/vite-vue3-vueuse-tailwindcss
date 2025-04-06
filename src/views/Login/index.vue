@@ -1,10 +1,9 @@
 <script setup>
-import { ref, getCurrentInstance, nextTick, onMounted, watch } from "vue";
+import { ref, getCurrentInstance, nextTick, onMounted, watch, reactive } from "vue";
 import { getLang } from "@/libs/common.js";
 import { ElMessage } from "element-plus";
 import { useSessionStorage } from "@vueuse/core";
 import { useLoadingStore } from "@/stores/loading.js";
-// import i18n from "@/libs/i18n.js";
 import i18n from "@/locales";
 import { localStorageSetItem, languageObject, localStorageGetItem } from "@/utils/storage.js";
 
@@ -12,8 +11,28 @@ defineOptions({
   name: "Login"
 });
 
-const username = ref("");
-const password = ref("");
+const form = reactive({
+  username: "",
+  password: ""
+});
+const formRef = ref(null);
+
+const rules = reactive({
+  username: [
+    {
+      required: true,
+      message: () => i18n.global.t("login.usernameErrorTip"),
+      trigger: "blur"
+    }
+  ],
+  password: [
+    {
+      required: true,
+      message: () => i18n.global.t("login.passwordErrorTip"),
+      trigger: "blur"
+    }
+  ]
+});
 // const language = ref("");
 
 const selectedLang = ref(localStorageGetItem(languageObject.USER_LOCALE) ?? "zh-CN");
@@ -35,51 +54,54 @@ watch(selectedLang, n => {
 });
 
 const login = () => {
-  // isLoading.value = true;
-  loadingStore.openLoading();
+  formRef.value.validate(valid => {
+    if (!valid) return;
+    // isLoading.value = true;
+    loadingStore.openLoading();
 
-  nextTick(async () => {
-    try {
-      // 这里模拟一个异步操作，例如发送请求
-      await new Promise(resolve => setTimeout(resolve, 2000));
+    nextTick(async () => {
+      try {
+        // 这里模拟一个异步操作，例如发送请求
+        await new Promise(resolve => setTimeout(resolve, 2000));
 
-      // 请求完成后重置 loading 状态
-      // isLoading.value = false;
-      loadingStore.closeLoading();
-      // 添加token和用户信息
-      // setToken(token.value);
+        // 请求完成后重置 loading 状态
+        // isLoading.value = false;
+        loadingStore.closeLoading();
+        // 添加token和用户信息
+        // setToken(token.value);
 
-      ElMessage({
-        message: "登陆成功",
-        type: "success",
-        duration: 5 * 1000,
-        showClose: true
-      });
+        ElMessage({
+          message: "登陆成功",
+          type: "success",
+          duration: 5 * 1000,
+          showClose: true
+        });
 
-      // language.value = getLang();
+        // language.value = getLang();
 
-      const lang = document.querySelector('input[type="radio"]:checked');
-      // language.value = selectedLang.value;
-      useSessionStorage("USER_INFO", {
-        username: username.value,
-        password: password.value
-        // language: language.value
-      });
+        // const lang = document.querySelector('input[type="radio"]:checked');
+        // language.value = selectedLang.value;
+        useSessionStorage("USER_INFO", {
+          username: form.username,
+          password: form.password,
+          language: selectedLang.value
+        });
 
-      // if (import.meta.env.VITE_USER_NODE_ENV === "development") {
-      proxy.$router.push({
-        name: "home",
-        query: {
-          lang: selectedLang.value ?? getLang(),
-          t: new Date().getTime()
-        }
-      });
-      // }
-    } catch (error) {
-      console.error(error);
-      // isLoading.value = false;
-      loadingStore.closeLoading();
-    }
+        // if (import.meta.env.VITE_USER_NODE_ENV === "development") {
+        proxy.$router.push({
+          name: "home",
+          query: {
+            lang: selectedLang.value ?? getLang(),
+            t: new Date().getTime()
+          }
+        });
+        // }
+      } catch (error) {
+        console.error(error);
+        // isLoading.value = false;
+        loadingStore.closeLoading();
+      }
+    });
   });
 };
 
@@ -89,39 +111,48 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-50">
+  <div class="login-form min-h-screen flex items-center justify-center bg-gray-50">
     <div class="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-lg">
       <div>
         <h2 class="text-center text-3xl font-extrabold text-gray-900">{{ $t("login.login") }}</h2>
       </div>
-      <form class="mt-8 space-y-6" @submit.prevent="login">
-        <div>
-          <label for="username" class="block text-sm font-medium text-gray-700">
-            {{ $t("login.userName") }}
-          </label>
+      <el-form
+        ref="formRef"
+        :model="form"
+        :rules="rules"
+        class="mt-8 space-y-6"
+        @submit.prevent="login"
+        label-position="top"
+      >
+        <el-form-item label="Username" prop="username">
+          <template #label>
+            <label for="username" class="block text-sm font-medium text-gray-700">
+              {{ $t("login.userName") }}
+            </label>
+          </template>
           <input
             id="username"
-            v-model="username"
+            v-model="form.username"
             type="text"
-            required
             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:text-white placeholder:dark:text-gray-600"
             :placeholder="$t('login.userName')"
           />
-        </div>
-        <div>
-          <label for="password" class="block text-sm font-medium text-gray-700">
-            {{ $t("login.password") }}
-          </label>
+        </el-form-item>
+        <el-form-item prop="password">
+          <template #label>
+            <label for="password" class="block text-sm font-medium text-gray-700">
+              {{ $t("login.password") }}
+            </label>
+          </template>
           <input
             id="password"
-            v-model="password"
+            v-model="form.password"
             type="password"
-            required
             autocomplete=""
             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm dark:text-white placeholder:dark:text-gray-600"
             :placeholder="$t('login.password')"
           />
-        </div>
+        </el-form-item>
         <div>
           <label class="block text-sm font-medium text-gray-700 mb-2">
             {{ $t("login.language") }}
@@ -193,7 +224,17 @@ onMounted(() => {
             </div>
           </button>
         </div>
-      </form>
+      </el-form>
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.login-form {
+  & :deep(.el-form-item__label) {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+}
+</style>

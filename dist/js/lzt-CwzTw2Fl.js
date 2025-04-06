@@ -1,0 +1,1 @@
+import{b as l,a as n}from"./lzt-T2rJrzHa.js";function o(){var o;const t=(null==(o=((l="")=>{var n,o;return l?Object.fromEntries((null==(o=null==(n=null==l?void 0:l.split("?")[1])?void 0:n.split("&"))?void 0:o.map((l=>l.split("="))))??[])??{}:{}})(window.location.href))?void 0:o.lang)??"zh-CN";return l(n.USER_LOCALE,t),t}export{o as g};

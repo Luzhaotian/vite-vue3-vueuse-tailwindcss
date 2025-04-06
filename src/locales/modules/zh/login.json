@@ -2,5 +2,7 @@
   "userName": "用户名",
   "password": "密码",
   "language": "语言",
-  "login": "登录"
+  "login": "登录",
+  "usernameErrorTip": "请输入用户名",
+  "passwordErrorTip": "请输入密码"
 }

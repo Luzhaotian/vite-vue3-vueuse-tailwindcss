@@ -2,5 +2,7 @@
   "userName": "User Name",
   "password": "Password",
   "language": "language",
-  "login": "Login"
+  "login": "Login",
+  "usernameErrorTip": "Please enter your username",
+  "passwordErrorTip": "Please enter your password"
 }
