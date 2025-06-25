@@ -39,6 +39,7 @@ tryOnMounted(() => {
 </script>
 
 <template>
+  <!-- 测试 -->
   <el-config-provider :locale="lang">
     <router-view />
   </el-config-provider>
