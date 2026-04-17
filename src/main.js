@@ -48,8 +48,15 @@ app
 const savedPath = sessionStorage.getItem("spa-path");
 if (savedPath) {
   sessionStorage.removeItem("spa-path");
-  // 导航到保存的路径
+  // 获取 base 路径（与 router 中的 base 保持一致）
+  const base = import.meta.env.VITE_APP_BASE_URL || "/";
+  // 去掉 base 前缀，得到相对路径
+  let targetPath = savedPath;
+  if (base !== "/" && savedPath.startsWith(base)) {
+    targetPath = savedPath.slice(base.length - 1); // 保留开头的 /
+  }
+  // 导航到目标路径
   router.isReady().then(() => {
-    router.push(savedPath);
+    router.push(targetPath);
   });
 }
