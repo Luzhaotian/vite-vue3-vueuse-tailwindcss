@@ -42,3 +42,14 @@ app
   })
   .use(i18n)
   .mount("#app");
+
+// GitHub Pages SPA 刷新 404 修复
+// 检查 sessionStorage 中是否有从 404.html 保存的路径
+const savedPath = sessionStorage.getItem("spa-path");
+if (savedPath) {
+  sessionStorage.removeItem("spa-path");
+  // 导航到保存的路径
+  router.isReady().then(() => {
+    router.push(savedPath);
+  });
+}

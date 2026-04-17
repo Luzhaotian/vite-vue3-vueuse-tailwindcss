@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redirecting...</title>
+  <script>
+    // GitHub Pages SPA redirect hack
+    // 将路径保存到 sessionStorage，然后重定向到根路径
+    const path = window.location.pathname;
+    const search = window.location.search;
+    const hash = window.location.hash;
+    sessionStorage.setItem('spa-path', path + search + hash);
+    window.location.replace('/' + window.location.search);
+  </script>
+</head>
+<body>
+  <p>Redirecting...</p>
+</body>
+</html>
